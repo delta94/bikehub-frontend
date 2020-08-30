@@ -1,0 +1,54 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\yuta3\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-responsive-fontsize
+
+PATH: 
+  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\OpenSSH;C:\xampp\mysql\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\Users\yuta3\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\yuta3\AppData\Local\Programs\Python\Python37\;C:\Users\yuta3\AppData\Local\Programs\Microsoft VS Code\bin;C:\xampp\mysql\bin;C:\Users\yuta3\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.18.3
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, unlink 'C:\dev\bikehub-frontend\node_modules\nan\doc'
+
+npm manifest: 
+  {
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "web": "expo start --web",
+      "eject": "expo eject"
+    },
+    "dependencies": {
+      "expo": "~38.0.8",
+      "expo-status-bar": "^1.0.2",
+      "react": "~16.11.0",
+      "react-dom": "~16.11.0",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
+      "react-native-web": "~0.11.7",
+      "expo-ads-admob": "~8.2.1"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.8.6",
+      "@types/jest": "^26.0.10",
+      "@types/react": "^16.9.47",
+      "@types/react-native": "^0.62.18",
+      "@types/react-test-renderer": "^16.9.3",
+      "babel-plugin-module-resolver": "^4.0.0",
+      "typescript": "^3.9.7"
+    },
+    "private": true
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
