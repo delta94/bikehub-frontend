@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
@@ -6,13 +6,28 @@ type NewsCardProps = {
   title: string;
   author: string;
   imgUrl: string;
+  NoImage: string;
 };
 
 export default function NewsCard({ title, author, imgUrl }: NewsCardProps) {
+  const [img, setImg] = useState('');
+  const NoImage: string = require('../assets/no-img.jpg');
+
+  const checkImage = (url: string) => {
+    Image.getSize(url, (size: Number) => {
+      if (size === 1) {
+        setImg(NoImage);
+      } else {
+        setImg(imgUrl);
+      }
+    });
+  };
+  checkImage(imgUrl);
+
   return (
     <View style={styles.itemContainer}>
       <View style={styles.leftContainer}>
-        <Text numberOfLines={3} style={styles.text}>
+        <Text numberOfLines={2} style={styles.text}>
           {title}
         </Text>
         <Text style={styles.title}>{author}</Text>
@@ -20,11 +35,11 @@ export default function NewsCard({ title, author, imgUrl }: NewsCardProps) {
       <View style={styles.rightContainer}>
         <ImageBackground
           style={styles.backGroundImageContainer}
-          source={{ uri: imgUrl }}
+          source={{ uri: img }}
           blurRadius={2}
           imageStyle={{ opacity: 0.8 }}
         >
-          <Image style={styles.imageContainer} source={{ uri: imgUrl }} />
+          <Image style={styles.imageContainer} source={{ uri: img }} />
         </ImageBackground>
       </View>
     </View>
@@ -65,11 +80,11 @@ const styles = StyleSheet.create({
   },
   text: {
     // fontSize: 22,
-    fontSize: RFPercentage(3),
+    fontSize: RFPercentage(2),
   },
   title: {
     // fontSize: 14,
-    fontSize: RFPercentage(1.5),
+    fontSize: RFPercentage(1),
     color: 'grey',
   },
 });

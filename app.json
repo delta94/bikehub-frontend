@@ -13,14 +13,17 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "apiKey": "Api-Key hnIVbuI3.4zBiAyiOWFR5abnm26JcBCQ2Niqa6QCu",
+      "newsApiBaseUrl": "http://133.167.102.92:8888",
+      "newsApiPath": "/rest/news/subTagsMap/"
     }
   }
 }
