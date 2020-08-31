@@ -6,7 +6,6 @@ type NewsCardProps = {
   title: string;
   author: string;
   imgUrl: string;
-  NoImage: string;
 };
 
 export default function NewsCard({ title, author, imgUrl }: NewsCardProps) {

@@ -19,6 +19,7 @@ const API_KEY = Constants.manifest.extra.apiKey;
 
 export default function App() {
   const [newsData, setNews] = useState([]);
+  const [nextUrl, setnextUrl] = useState('');
   useEffect(() => {
     fetchArticles();
   }, []);
@@ -49,9 +50,9 @@ export default function App() {
           data={newsData}
           renderItem={({ item }: any) => (
             <NewsCard
-              title={item.news.title}
-              author={item.news.site.name}
-              imgUrl={item.news.featured_image}
+              title={item.title}
+              author={item.site.name}
+              imgUrl={item.featured_image}
             />
           )}
           keyExtractor={(item: any, index: Number) => index.toString()}
