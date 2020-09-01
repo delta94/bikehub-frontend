@@ -4,6 +4,14 @@ import { StyleSheet, View, FlatList, SafeAreaView } from 'react-native';
 import NewsCard from '../components/NewsCard';
 import Constants from 'expo-constants';
 import axios from 'axios';
+import { useColorScheme } from 'react-native-appearance';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
 
 type NewsCardProps = {
   title: string;
@@ -20,9 +28,12 @@ const PATH = Constants.manifest.extra.newsApiPath;
 const API_KEY = Constants.manifest.extra.apiKey;
 
 export default function HomeScreen({ navigation }) {
+  const colorScheme = useColorScheme();
   const [newsData, setNews]: Array<any> = useState([]);
   const [nextPage, setnextPage] = useState(1);
   const [isNoNext, setIsNoNext] = useState(false);
+  const themeItemContainer =
+    colorScheme === 'light' ? styles.containerLight : styles.containerDark;
   useEffect(() => {
     fetchArticles();
   }, []);
@@ -61,17 +72,13 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, themeItemContainer]}>
       <View style={styles.newsCardList}>
         <FlatList
           data={newsData}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.3}
           onEndReached={() => {
-            console.log('reached!');
             fetchArticles();
-          }}
-          onMomentumScrollBegin={() => {
-            console.log('start');
           }}
           renderItem={({ item }: any) => (
             <NewsCard
@@ -79,7 +86,7 @@ export default function HomeScreen({ navigation }) {
               author={item.site.name}
               imgUrl={item.featured_image}
               onPress={() =>
-                navigation.navigate('Article', {
+                navigation.navigate('記事', {
                   title: item.title,
                   author: item.site.name,
                   imgUrl: item.featured_image,
@@ -101,11 +108,17 @@ const styles = StyleSheet.create({
     maxWidth: 1000,
     margin: 'auto',
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000000',
     alignItems: 'center',
     justifyContent: 'center',
   },
   newsCardList: {
     width: '100%',
+  },
+  containerDark: {
+    backgroundColor: '#000000',
+  },
+  containerLight: {
+    backgroundColor: '#fff',
   },
 });

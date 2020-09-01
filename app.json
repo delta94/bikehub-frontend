@@ -14,8 +14,19 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
+    "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-3940256099942544/3986624511",
+        "--googleMobileAdsAppId": "ca-app-pub-8220669417943263/1385326210"
+      }
+    },
+    "android": {
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-3940256099942544/3986624511",
+        "--googleMobileAdsAppId": "ca-app-pub-8220669417943263/3256617563"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

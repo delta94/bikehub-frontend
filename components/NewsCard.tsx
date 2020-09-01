@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { useColorScheme } from 'react-native-appearance';
 
 type NewsCardProps = {
   title: string;
@@ -23,6 +24,16 @@ export default function NewsCard({
   onPress,
 }: NewsCardProps) {
   const [isError, setisError] = useState(false);
+  const colorScheme = useColorScheme();
+
+  const themeItemContainer =
+    colorScheme === 'light'
+      ? styles.itemContainerLight
+      : styles.itemContainerDark;
+  const themeText =
+    colorScheme === 'light' ? styles.textLight : styles.textDark;
+  const themeTitle =
+    colorScheme === 'light' ? styles.titleLight : styles.titleDark;
 
   const checkImage = (url: string) => {
     try {
@@ -45,7 +56,7 @@ export default function NewsCard({
   if (isError) {
     image = (
       <ImageBackground
-        style={styles.backGroundImageContainer}
+        style={[styles.backGroundImageContainer]}
         source={require('../assets/no-img.jpg')}
         blurRadius={2}
         imageStyle={{ opacity: 0.8 }}
@@ -73,12 +84,15 @@ export default function NewsCard({
   }, []);
 
   return (
-    <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.itemContainer, themeItemContainer]}
+      onPress={onPress}
+    >
       <View style={styles.leftContainer}>
-        <Text numberOfLines={2} style={styles.text}>
+        <Text numberOfLines={2} style={[styles.text, themeText]}>
           {title}
         </Text>
-        <Text style={styles.title}>{author}</Text>
+        <Text style={[styles.title, themeTitle]}>{author}</Text>
       </View>
       <View style={styles.rightContainer}>{image}</View>
     </TouchableOpacity>
@@ -89,16 +103,19 @@ const styles = StyleSheet.create({
   itemContainer: {
     height: 125,
     width: '99%',
-    borderColor: '#D6D6D6',
     borderBottomWidth: 1,
     flexDirection: 'row',
     flexGrow: 0,
   },
+  itemContainerDark: {
+    borderColor: '#fff',
+  },
+  itemContainerLight: {
+    borderColor: '#000000',
+  },
   leftContainer: {
     flex: 1,
     padding: 10,
-    // fontSize:'20%',
-    // fontSize: RFValue(24, 580),
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
@@ -118,12 +135,21 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   text: {
-    // fontSize: 22,
     fontSize: RFPercentage(2),
   },
   title: {
-    // fontSize: 14,
     fontSize: RFPercentage(1),
-    color: 'grey',
+  },
+  textLight: {
+    color: '#000000',
+  },
+  textDark: {
+    color: '#fff',
+  },
+  titleLight: {
+    color: '#000000',
+  },
+  titleDark: {
+    color: '#fff',
   },
 });
