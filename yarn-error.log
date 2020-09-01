@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\yuta3\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add expo-asset@~8.1.7
+  C:\Program Files\nodejs\node.exe C:\Users\yuta3\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @react-navigation/native
 
 PATH: 
   C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\OpenSSH;C:\xampp\mysql\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\Users\yuta3\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\yuta3\AppData\Local\Programs\Python\Python37\;C:\Users\yuta3\AppData\Local\Programs\Microsoft VS Code\bin;C:\xampp\mysql\bin;C:\Users\yuta3\AppData\Roaming\npm
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\dev\bikehub-frontend\node_modules\file-uri-to-path\test'
+  Error: EPERM: operation not permitted, unlink 'C:\dev\bikehub-frontend\node_modules\@babel\generator\node_modules\.bin'
 
 npm manifest: 
   {
@@ -27,9 +27,11 @@ npm manifest:
       "eject": "expo eject"
     },
     "dependencies": {
+      "@types/react-native": "^0.63.11",
       "axios": "^0.20.0",
       "expo": "~38.0.8",
       "expo-ads-admob": "~8.2.1",
+      "expo-asset": "~8.1.7",
       "expo-constants": "~9.1.1",
       "expo-status-bar": "^1.0.2",
       "react": "~16.11.0",
@@ -1301,13 +1303,6 @@ Lockfile:
     version "15.7.3"
     resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
     integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
-  
-  "@types/react-native@^0.63.11":
-    version "0.63.11"
-    resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.63.11.tgz#0965552aa4cfe8a7c0c64f1afb1c101d2fa7510a"
-    integrity sha512-OjYwDiMZGENGd5P+su0OZY0t0ctTnmmToS/mJOAErktpZWqfDj99Q2hy3M09tQj+h2KnpsT+WUPozUKoossSxw==
-    dependencies:
-      "@types/react" "*"
   
   "@types/react-test-renderer@^16.9.3":
     version "16.9.3"
@@ -5296,11 +5291,6 @@ Lockfile:
     version "0.0.6"
     resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
     integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-  
-  typescript@^4.0.2:
-    version "4.0.2"
-    resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.0.2.tgz#7ea7c88777c723c681e33bf7988be5d008d05ac2"
-    integrity sha512-e4ERvRV2wb+rRZ/IQeb3jm2VxBsirQLpQhdxplZ2MEzGvDkkMmPglecnNDfSUBivMjP93vRbngYYDQqQ/78bcQ==
   
   ua-parser-js@^0.7.18:
     version "0.7.21"
