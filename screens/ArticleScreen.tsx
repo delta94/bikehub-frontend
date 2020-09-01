@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import { Card, Button } from 'react-native-material-ui';
 
 export default function ArticleScreen({ route, navigation }: any) {
   const { title } = route.params;
@@ -19,18 +20,20 @@ export default function ArticleScreen({ route, navigation }: any) {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <Text>{title}</Text>
-        <Text>{summary}</Text>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('ArticleView', {
-              url: url,
-            })
-          }
-          style={styles.appButtonContainer}
-        >
-          <Text style={styles.appButtonText}>オリジナルサイトで見る</Text>
-        </TouchableOpacity>
+        <Card>
+          <Text>{title}</Text>
+          <Text numberOfLines={4}>{summary}</Text>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ArticleView', {
+                url: url,
+              })
+            }
+            style={styles.appButtonContainer}
+          >
+            <Text style={styles.appButtonText}>オリジナルサイトで見る</Text>
+          </TouchableOpacity>
+        </Card>
       </View>
     </SafeAreaView>
   );
@@ -38,22 +41,24 @@ export default function ArticleScreen({ route, navigation }: any) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   appButtonContainer: {
+    
     margin: 10,
     elevation: 8,
-    backgroundColor: '#009688',
+    backgroundColor: '#fff',
+    borderColor: '#009688',
+    borderWidth: 1,
     borderRadius: 50,
     paddingVertical: 10,
     paddingHorizontal: 12,
   },
   appButtonText: {
     fontSize: 18,
-    color: '#fff',
+    color: '#009688',
     fontWeight: 'bold',
     alignSelf: 'center',
     textTransform: 'uppercase',
