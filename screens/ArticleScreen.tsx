@@ -84,6 +84,7 @@ export default function ArticleScreen({ route, navigation }: any) {
             {summary}
           </Text>
           <AdMobBanner
+            style={[styles.ad]}
             bannerSize="mediumRectangle"
             adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
           />
@@ -106,6 +107,9 @@ export default function ArticleScreen({ route, navigation }: any) {
 }
 
 const styles = StyleSheet.create({
+  ad: {
+    margin: 30,
+  },
   scrollView: {
     height: '100%',
   },

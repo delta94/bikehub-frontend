@@ -1,6 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, FlatList, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  SafeAreaView,
+  RefreshControl,
+  ScrollView,
+} from 'react-native';
 import NewsCard from '../components/NewsCard';
 import Constants from 'expo-constants';
 import axios from 'axios';
@@ -25,14 +32,18 @@ export default function HomeScreen({ route, navigation }: any) {
   const [newsData, setNews]: Array<any> = useState([]);
   const [nextPage, setnextPage] = useState(1);
   const [isNoNext, setIsNoNext] = useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
   const themeItemContainer =
     colorScheme === 'light' ? styles.containerLight : styles.containerDark;
-
   useFocusEffect(
     React.useCallback(() => {
       fetchArticles();
     }, [])
   );
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchArticles();
+  }, []);
 
   const fetchArticles = async () => {
     if (isNoNext) {
@@ -60,6 +71,7 @@ export default function HomeScreen({ route, navigation }: any) {
         }
         setNews([...newsData, ...response.data.results]);
       })
+      .then(() => setRefreshing(false))
       .catch((e) => {
         console.log(e);
       });
@@ -69,8 +81,12 @@ export default function HomeScreen({ route, navigation }: any) {
     <SafeAreaView style={[styles.container, themeItemContainer]}>
       <View style={styles.newsCardList}>
         <FlatList
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           contentContainerStyle={styles.listView}
           data={newsData}
+          extraData={newsData}
           onEndReachedThreshold={0.3}
           onEndReached={() => {
             fetchArticles();
