@@ -6,6 +6,7 @@ import ArticleScreen from '../screens/ArticleScreen';
 import ArticleViewScreen from '../screens/ArticleViewScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useColorScheme } from 'react-native-appearance';
+import TabNavigator from './TabNavigator';
 
 import {
   NavigationContainer,
@@ -20,7 +21,6 @@ type NewsCardProps = {
 
 export default function StackNavigator({ route }: any) {
   const ArticleStack = createStackNavigator();
-  const category = route.params.category;
   const colorScheme = useColorScheme();
   // const { category } = route.params;
 
@@ -28,9 +28,8 @@ export default function StackNavigator({ route }: any) {
     <ArticleStack.Navigator>
       <ArticleStack.Screen
         name="Home"
-        component={HomeScreen}
+        component={TabNavigator}
         options={{ headerShown: false }}
-        initialParams={{ category: category }}
       />
       <ArticleStack.Screen name="記事" component={ArticleScreen} />
       <ArticleStack.Screen
