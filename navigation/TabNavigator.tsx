@@ -9,6 +9,7 @@ import StackNavigator from './StackNavigator';
 import { useColorScheme } from 'react-native-appearance';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from '../screens/HomeScreen';
+import { HeaderBackground } from '@react-navigation/stack';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,9 +21,15 @@ export default function TabNavigator() {
     <Tab.Navigator
       tabBarOptions={{
         scrollEnabled: true,
-        tabStyle: { width: 125 },
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
+        tabStyle: {
+          width: 125,
+        },
+        labelStyle: {
+          fontSize: 12,
+        },
+        indicatorStyle: {
+          backgroundColor: 'green',
+        },
       }}
     >
       <Tab.Screen

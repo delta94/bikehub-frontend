@@ -89,7 +89,7 @@ export default function NewsCard({
       onPress={onPress}
     >
       <View style={styles.leftContainer}>
-        <Text numberOfLines={2} style={[styles.text, themeText]}>
+        <Text numberOfLines={3} style={[styles.text, themeText]}>
           {title}
         </Text>
         <Text style={[styles.title, themeTitle]}>{author}</Text>
@@ -135,10 +135,10 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   text: {
-    fontSize: RFPercentage(2),
+    fontSize: RFPercentage(2.75),
   },
   title: {
-    fontSize: RFPercentage(1),
+    fontSize: RFPercentage(1.5),
   },
   textLight: {
     color: '#000000',

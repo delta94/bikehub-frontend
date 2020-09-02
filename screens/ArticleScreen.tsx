@@ -83,11 +83,15 @@ export default function ArticleScreen({ route, navigation }: any) {
           <Text style={[styles.text, themeText]} numberOfLines={4}>
             {summary}
           </Text>
+          <Text style={[styles.adText, themeText]} numberOfLines={4}>
+            広告
+          </Text>
           <AdMobBanner
             style={[styles.ad]}
             bannerSize="mediumRectangle"
             adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
           />
+
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('オリジナルサイト', {
@@ -107,8 +111,13 @@ export default function ArticleScreen({ route, navigation }: any) {
 }
 
 const styles = StyleSheet.create({
+  adText: {
+    fontSize: 20,
+    marginTop: 30,
+    marginBottom: 10,
+  },
   ad: {
-    margin: 30,
+    marginBottom: 30,
   },
   scrollView: {
     height: '100%',
@@ -145,6 +154,7 @@ const styles = StyleSheet.create({
   appButtonContainer: {
     margin: 10,
     marginTop: 20,
+    marginBottom: 50,
     elevation: 8,
     backgroundColor: '#fff',
     borderColor: '#000000',
