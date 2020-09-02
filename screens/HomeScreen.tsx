@@ -13,13 +13,6 @@ import Constants from 'expo-constants';
 import axios from 'axios';
 import { useColorScheme } from 'react-native-appearance';
 import { useFocusEffect } from '@react-navigation/native';
-import {
-  AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
 
 const BASE_URL = Constants.manifest.extra.newsApiBaseUrl;
 const PATH = Constants.manifest.extra.newsApiPath;
@@ -29,29 +22,55 @@ export default function HomeScreen({ route, navigation }: any) {
   const category = route.params.category;
   const categoryFilterParm = `&sub_category_tag_map__sub_category_tag__main_category_tag_id=${category}`;
   const colorScheme = useColorScheme();
-  const [newsData, setNews]: Array<any> = useState([]);
+  const [newsData, setNewsData] = useState([]);
   const [nextPage, setnextPage] = useState(1);
   const [isNoNext, setIsNoNext] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
   const themeItemContainer =
     colorScheme === 'light' ? styles.containerLight : styles.containerDark;
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       fetchArticles();
     }, [])
   );
-  const onRefresh = React.useCallback(() => {
+  useEffect(() => {
+    if (refreshing) {
+      fetchArticles().then(() => {
+        setRefreshing(false);
+      });
+    }
+  }, [refreshing]);
+
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
-    fetchArticles();
+    fetchArticles().then(() => {
+      setRefreshing(false);
+    });
   }, []);
 
   const fetchArticles = async () => {
     if (isNoNext) {
       return;
     }
+    console.log(
+      '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+    );
 
+    if (refreshing) {
+      console.log(
+        '++++++++++++++++++++++++++++refreshing++++++++++++++++++++++++++++++++++++'
+      );
+      setNewsData([]);
+      setRefreshing(false);
+
+      setnextPage(1);
+    }
     const requestUrl = () => {
-      if (category) {
+      if (refreshing && category) {
+        return `${BASE_URL}${PATH}?ordering=-created_at${categoryFilterParm}&page=1`;
+      } else if (refreshing && !category) {
+        return `${BASE_URL}${PATH}?ordering=-created_at&page=1`;
+      } else if (category) {
         return `${BASE_URL}${PATH}?ordering=-created_at${categoryFilterParm}&page=${nextPage}`;
       } else {
         return `${BASE_URL}${PATH}?ordering=-created_at&page=${nextPage}`;
@@ -64,14 +83,26 @@ export default function HomeScreen({ route, navigation }: any) {
       },
     })
       .then((response: any) => {
-        if (response.data.next) {
+        if (response.data.next && !refreshing) {
+          let r = response.data.results.map((a) => {
+            return a.title;
+          });
+          console.log(requestUrl());
+          console.log(r);
+
+          // console.log(response.data);
           setnextPage(nextPage + 1);
         } else {
           setIsNoNext(true);
         }
-        setNews([...newsData, ...response.data.results]);
+
+        if (refreshing) {
+          setNewsData(response.data.results);
+          alert('aaass');
+        } else {
+          setNewsData([...newsData, ...response.data.results]);
+        }
       })
-      .then(() => setRefreshing(false))
       .catch((e) => {
         console.log(e);
       });

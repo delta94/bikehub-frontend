@@ -5,11 +5,9 @@ import {
   DarkTheme,
 } from '@react-navigation/native';
 import { StyleSheet, SafeAreaView } from 'react-native';
-import StackNavigator from './StackNavigator';
 import { useColorScheme } from 'react-native-appearance';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from '../screens/HomeScreen';
-import { HeaderBackground } from '@react-navigation/stack';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -22,10 +20,11 @@ export default function TabNavigator() {
       tabBarOptions={{
         scrollEnabled: true,
         tabStyle: {
-          width: 125,
+          width: 100,
+          height: 50,
         },
         labelStyle: {
-          fontSize: 12,
+          fontSize: 20,
         },
         indicatorStyle: {
           backgroundColor: 'green',
