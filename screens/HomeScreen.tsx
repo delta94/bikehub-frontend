@@ -69,6 +69,7 @@ export default function HomeScreen({ route, navigation }: any) {
     <SafeAreaView style={[styles.container, themeItemContainer]}>
       <View style={styles.newsCardList}>
         <FlatList
+          contentContainerStyle={styles.listView}
           data={newsData}
           onEndReachedThreshold={0.3}
           onEndReached={() => {
@@ -98,16 +99,10 @@ export default function HomeScreen({ route, navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    maxWidth: 1000,
-    margin: 'auto',
-    flex: 1,
-    backgroundColor: '#000000',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  container: {},
   newsCardList: {
-    width: '100%',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
   containerDark: {
     backgroundColor: '#000000',
@@ -115,4 +110,5 @@ const styles = StyleSheet.create({
   containerLight: {
     backgroundColor: '#fff',
   },
+  listView: {},
 });

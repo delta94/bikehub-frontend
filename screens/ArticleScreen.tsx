@@ -74,8 +74,8 @@ export default function ArticleScreen({ route, navigation }: any) {
   }
 
   return (
-    <SafeAreaView>
-      <ScrollView style={[styles.scrollView, themeItemContainer]}>
+    <SafeAreaView style={[styles.scrollView, themeItemContainer]}>
+      <ScrollView>
         <View style={[styles.container, themeItemContainer]}>
           <Text style={[styles.title, themeTitle]}>{title}</Text>
           <Text style={[styles.author, themeTitle]}>{author}</Text>

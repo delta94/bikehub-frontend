@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "HelloWorld",
+    "name": "BikeHub",
     "slug": "bikehub-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,19 +13,19 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-3940256099942544/3986624511",
-        "--googleMobileAdsAppId": "ca-app-pub-8220669417943263/1385326210"
+        "googleMobileAdsAppId": "ca-app-pub-3940256099942544/3986624511"
       }
     },
     "android": {
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-3940256099942544/3986624511",
-        "--googleMobileAdsAppId": "ca-app-pub-8220669417943263/3256617563"
+        "googleMobileAdsAppId": "ca-app-pub-3940256099942544/3986624511"
       }
     },
     "web": {
@@ -35,6 +35,8 @@
       "apiKey": "Api-Key hnIVbuI3.4zBiAyiOWFR5abnm26JcBCQ2Niqa6QCu",
       "newsApiBaseUrl": "http://133.167.102.92:8888",
       "newsApiPath": "/rest/news/"
-    }
+    },
+    "description": "https://github.com/yuta-hidaka/bikehub-frontend",
+    "githubUrl": "https://github.com/yuta-hidaka/bikehub-frontend"
   }
 }

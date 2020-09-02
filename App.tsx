@@ -16,13 +16,6 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <AppearanceProvider>
-      {/* <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen name="記事" component={HomeScreen} />
-          <Tab.Screen name="記事2" component={HomeScreen} />
-          <Tab.Screen name="記事3" component={HomeScreen} />
-        </Tab.Navigator>
-      </NavigationContainer> */}
       <AppNavigator />
     </AppearanceProvider>
   );
