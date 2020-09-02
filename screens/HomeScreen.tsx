@@ -5,6 +5,7 @@ import NewsCard from '../components/NewsCard';
 import Constants from 'expo-constants';
 import axios from 'axios';
 import { useColorScheme } from 'react-native-appearance';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   AdMobBanner,
   AdMobInterstitial,
@@ -13,58 +14,51 @@ import {
   setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 
-type NewsCardProps = {
-  title: string;
-  author: string;
-  imgUrl: string;
-  NoImage: string;
-  onPress: any;
-  navigation: any;
-  item: any;
-};
-
 const BASE_URL = Constants.manifest.extra.newsApiBaseUrl;
 const PATH = Constants.manifest.extra.newsApiPath;
 const API_KEY = Constants.manifest.extra.apiKey;
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ route, navigation }: any) {
+  const category = route.params.category;
+  const categoryFilterParm = `&sub_category_tag_map__sub_category_tag__main_category_tag_id=${category}`;
   const colorScheme = useColorScheme();
   const [newsData, setNews]: Array<any> = useState([]);
   const [nextPage, setnextPage] = useState(1);
   const [isNoNext, setIsNoNext] = useState(false);
   const themeItemContainer =
     colorScheme === 'light' ? styles.containerLight : styles.containerDark;
-  useEffect(() => {
-    fetchArticles();
-  }, []);
 
-  const fetchMore = useCallback(() => {
-    console.log('test');
-    setIsNoNext(false);
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchArticles();
+    }, [])
+  );
 
   const fetchArticles = async () => {
     if (isNoNext) {
       return;
     }
-    const response = await axios(
-      `${BASE_URL}${PATH}?ordering=-created_at&page=${nextPage}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: API_KEY,
-        },
+
+    const requestUrl = () => {
+      if (category) {
+        return `${BASE_URL}${PATH}?ordering=-created_at${categoryFilterParm}&page=${nextPage}`;
+      } else {
+        return `${BASE_URL}${PATH}?ordering=-created_at&page=${nextPage}`;
       }
-    )
+    };
+    const response = await axios(requestUrl(), {
+      method: 'GET',
+      headers: {
+        Authorization: API_KEY,
+      },
+    })
       .then((response: any) => {
-        console.log(response);
         if (response.data.next) {
           setnextPage(nextPage + 1);
         } else {
           setIsNoNext(true);
         }
         setNews([...newsData, ...response.data.results]);
-        console.log(isNoNext);
       })
       .catch((e) => {
         console.log(e);
