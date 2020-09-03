@@ -20,11 +20,11 @@ export default function TabNavigator() {
       tabBarOptions={{
         scrollEnabled: true,
         tabStyle: {
-          width: 100,
+          width: 125,
           height: 50,
         },
         labelStyle: {
-          fontSize: 20,
+          fontSize: 15,
         },
         indicatorStyle: {
           backgroundColor: 'green',

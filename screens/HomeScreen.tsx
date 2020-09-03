@@ -43,27 +43,11 @@ export default function HomeScreen({ route, navigation }: any) {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    fetchArticles().then(() => {
-      setRefreshing(false);
-    });
   }, []);
 
   const fetchArticles = async () => {
-    if (isNoNext) {
+    if (isNoNext && !refreshing) {
       return;
-    }
-    console.log(
-      '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-    );
-
-    if (refreshing) {
-      console.log(
-        '++++++++++++++++++++++++++++refreshing++++++++++++++++++++++++++++++++++++'
-      );
-      setNewsData([]);
-      setRefreshing(false);
-
-      setnextPage(1);
     }
     const requestUrl = () => {
       if (refreshing && category) {
@@ -80,6 +64,7 @@ export default function HomeScreen({ route, navigation }: any) {
       method: 'GET',
       headers: {
         Authorization: API_KEY,
+        // 'Cache-Control': 'no-cache',
       },
     })
       .then((response: any) => {
@@ -89,7 +74,6 @@ export default function HomeScreen({ route, navigation }: any) {
           });
           console.log(requestUrl());
           console.log(r);
-
           // console.log(response.data);
           setnextPage(nextPage + 1);
         } else {
@@ -97,8 +81,10 @@ export default function HomeScreen({ route, navigation }: any) {
         }
 
         if (refreshing) {
-          setNewsData(response.data.results);
-          alert('aaass');
+          setNewsData([...response.data.results]);
+          setRefreshing(false);
+          setIsNoNext(false);
+          // alert('refleshed');
         } else {
           setNewsData([...newsData, ...response.data.results]);
         }
