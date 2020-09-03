@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { StyleSheet, Image, ImageBackground } from 'react-native';
 import ArticleScreen from '../screens/ArticleScreen';
 import ArticleViewScreen from '../screens/ArticleViewScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import TabNavigator from './TabNavigator';
 
-
-export default function StackNavigator() {
+export default function StackNavigator({ route }: any) {
   const ArticleStack = createStackNavigator();
 
   return (

@@ -1,20 +1,59 @@
-import React from 'react';
-import {
-  NavigationContainer,
-  DefaultTheme,
-  DarkTheme,
-} from '@react-navigation/native';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { StyleSheet } from 'react-native';
 import { useColorScheme } from 'react-native-appearance';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HomeScreen from '../screens/HomeScreen';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
+import Constants from 'expo-constants';
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function TabNavigator() {
+export default function TabNavigator({ route, navigation }: any) {
   const colorScheme = useColorScheme();
   const themeItemContainer =
     colorScheme === 'light' ? styles.containerLight : styles.containerDark;
+
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token: any) => {
+      setExpoPushToken(token);
+    });
+
+    // This listener is fired whenever a notification is received while the app is foregrounded
+    // When user in app
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        setNotification(notification);
+      }
+    );
+
+    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    // When user out side of app
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log(response);
+        const data: any = response.notification.request.content.data.body;
+        navigation.navigate('記事', {
+          title: data.title,
+          author: data.author,
+          imgUrl: data.imgUrl,
+          summary: data.summary,
+          url: data.url,
+        });
+      }
+    );
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
+    };
+  }, []);
+
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -116,3 +155,36 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
+}
