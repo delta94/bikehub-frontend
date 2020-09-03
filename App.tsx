@@ -1,4 +1,5 @@
-// import { StatusBar } from 'expo-status-bar';iimport React, { useEffect, useState, useRef } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useState, useRef } from 'react';
 import { Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -21,9 +22,9 @@ export default function App() {
   const responseListener = useRef();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
-    );
+    registerForPushNotificationsAsync().then((token) => {
+      setExpoPushToken(token);
+    });
 
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(
@@ -49,31 +50,34 @@ export default function App() {
     <AppearanceProvider>
       <AppNavigator />
     </AppearanceProvider>
-    // <View
-    //   style={{
-    //     flex: 1,
-    //     alignItems: 'center',
-    //     justifyContent: 'space-around',
-    //   }}
-    // >
-    //   <Text>Your expo push token: {expoPushToken}</Text>
-    //   <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-    //     <Text>
-    //       Title: {notification && notification.request.content.title}{' '}
-    //     </Text>
-    //     <Text>Body: {notification && notification.request.content.body}</Text>
-    //     <Text>
-    //       Data:{' '}
-    //       {notification && JSON.stringify(notification.request.content.data)}
-    //     </Text>
-    //   </View>
-    //   <Button
-    //     title="Press to Send Notification"
-    //     onPress={async () => {
-    //       await sendPushNotification(expoPushToken);
-    //     }}
-    //   />
-    // </View>
+  );
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-around',
+      }}
+    >
+      <Text>Your expo push token: {expoPushToken}</Text>
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Text>
+          Title: {notification && notification.request.content.title}{' '}
+        </Text>
+        <Text>Body: {notification && notification.request.content.body}</Text>
+        <Text>
+          Data:{' '}
+          {notification && JSON.stringify(notification.request.content.data)}
+        </Text>
+      </View>
+      <Button
+        title="Press to Send Notification"
+        onPress={async () => {
+          await sendPushNotification(expoPushToken);
+        }}
+      />
+    </View>
   );
 }
 
@@ -123,22 +127,6 @@ async function registerForPushNotificationsAsync() {
     Notifications.setNotificationChannelAsync('default', {
       name: 'default',
       importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-
-  return token;
-}
-mportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-
-  return token;
-}
-mportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
       lightColor: '#FF231F7C',
     });
