@@ -7,10 +7,8 @@ import {
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { useColorScheme } from 'react-native-appearance';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import StackNavigator from './StackNavigator';
-
+import BottomNavigator from './BottomNavigator';
 const Tab = createMaterialTopTabNavigator();
-
 export default function AppNavigator() {
   const colorScheme = useColorScheme();
   const themeItemContainer =
@@ -20,7 +18,7 @@ export default function AppNavigator() {
       <NavigationContainer
         theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
       >
-        <StackNavigator />
+        <BottomNavigator />
       </NavigationContainer>
     </SafeAreaView>
   );

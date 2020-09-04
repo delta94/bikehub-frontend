@@ -57,13 +57,13 @@ export default function NewsCard({
     image = (
       <ImageBackground
         style={[styles.backGroundImageContainer]}
-        source={require('../assets/no-img.jpg')}
+        source={require('../../assets/no-img.jpg')}
         blurRadius={2}
         imageStyle={{ opacity: 0.8 }}
       >
         <Image
           style={styles.imageContainer}
-          source={require('../assets/no-img.jpg')}
+          source={require('../../assets/no-img.jpg')}
         />
       </ImageBackground>
     );

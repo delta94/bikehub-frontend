@@ -8,7 +8,7 @@ import {
   RefreshControl,
   ScrollView,
 } from 'react-native';
-import NewsCard from '../components/NewsCard';
+import NewsCard from '../../components/news/NewsCard';
 import Constants from 'expo-constants';
 import axios from 'axios';
 import { useColorScheme } from 'react-native-appearance';
@@ -22,7 +22,7 @@ export default function HomeScreen({ route, navigation }: any) {
   const category = route.params.category;
   const categoryFilterParm = `&sub_category_tag_map__sub_category_tag__main_category_tag_id=${category}`;
   const colorScheme = useColorScheme();
-  const [newsData, setNewsData] = useState([]);
+  const [newsData, setNewsData]: any = useState([]);
   const [nextPage, setnextPage] = useState(1);
   const [isNoNext, setIsNoNext] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
@@ -69,12 +69,6 @@ export default function HomeScreen({ route, navigation }: any) {
     })
       .then((response: any) => {
         if (response.data.next && !refreshing) {
-          let r = response.data.results.map((a) => {
-            return a.title;
-          });
-          console.log(requestUrl());
-          console.log(r);
-          // console.log(response.data);
           setnextPage(nextPage + 1);
         } else {
           setIsNoNext(true);
