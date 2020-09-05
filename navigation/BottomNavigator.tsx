@@ -3,14 +3,25 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoginScreen from '../screens/auth/LoginScreen';
 import StackNavigator from './news/StackNavigator';
+import { useColorScheme } from 'react-native-appearance';
+import { StyleSheet } from 'react-native';
+
 const Tab = createMaterialBottomTabNavigator();
 
 export default function BottomNavigator() {
+  const colorScheme = useColorScheme();
+  const background = colorScheme === 'light' ? '#fff' : '#000000';
+  const inactiveColor = colorScheme === 'light' ? '#000000' : '#fff';
+
   return (
     <Tab.Navigator
       initialRouteName="Feed"
-      activeColor="#e91e63"
-      style={{ backgroundColor: 'tomato' }}
+      activeColor="green"
+      inactiveColor={inactiveColor}
+      barStyle={{
+        backgroundColor: background,
+        height: 50,
+      }}
     >
       <Tab.Screen
         name="Feed"
@@ -18,11 +29,7 @@ export default function BottomNavigator() {
         options={{
           tabBarLabel: 'ニュース',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="fenewspaper-variant-outlineed"
-              color={color}
-              size={26}
-            />
+            <MaterialCommunityIcons name="newspaper" color={color} size={26} />
           ),
         }}
       />
@@ -46,11 +53,7 @@ export default function BottomNavigator() {
         options={{
           tabBarLabel: '保存記事',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="pbookmark-multiplein"
-              color={color}
-              size={26}
-            />
+            <MaterialCommunityIcons name="bookmark" color={color} size={26} />
           ),
         }}
       />
@@ -71,3 +74,15 @@ export default function BottomNavigator() {
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  tabDark: {
+    backgroundColor: '#000000',
+  },
+  tabLight: {
+    backgroundColor: '#fff',
+  },
+});

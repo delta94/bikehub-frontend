@@ -10,13 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { useColorScheme } from 'react-native-appearance';
-import {
-  AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
-  setTestDeviceIDAsync,
-} from 'expo-ads-admob';
+import { AdMobBanner } from 'expo-ads-admob';
 // await setTestDeviceIDAsync('EMULATOR');
 
 export default function ArticleScreen({ route, navigation }: any) {

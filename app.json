@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
@@ -35,7 +33,14 @@
     "extra": {
       "apiKey": "Api-Key hnIVbuI3.4zBiAyiOWFR5abnm26JcBCQ2Niqa6QCu",
       "newsApiBaseUrl": "http://133.167.102.92:8888",
-      "newsApiPath": "/rest/news/"
+      "authApiBaseUrl": "http://133.167.102.92:8888",
+      "newsApiPath": "/rest/news/",
+      "loginPath": "/rest/auth/login/",
+      "logoutPath": "/rest/auth/logout/",
+      "registrationPath": "/rest/auth/registration/",
+      "passwordResetPath": "/rest/auth/password/reset/",
+      "passwordChangePath": "/rest/auth/password/change/",
+      "deletePath": "/rest/auth/login/"
     },
     "description": "https://github.com/yuta-hidaka/bikehub-frontend",
     "githubUrl": "https://github.com/yuta-hidaka/bikehub-frontend"

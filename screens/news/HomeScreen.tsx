@@ -64,7 +64,6 @@ export default function HomeScreen({ route, navigation }: any) {
       method: 'GET',
       headers: {
         Authorization: API_KEY,
-        // 'Cache-Control': 'no-cache',
       },
     })
       .then((response: any) => {
