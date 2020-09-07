@@ -41,7 +41,7 @@ export default function Login({ navigation }: { navigation: any }) {
   const [show, setShow] = useState(false);
   const colorScheme = useColorScheme();
   const textColor = colorScheme === 'light' ? '#000000' : '#fff';
-  const backGroundColor = colorScheme === 'light' ? styles.topContainerLight : styles.topContainerDark;
+  const topContainerColor = colorScheme === 'light' ? styles.topContainerLight : styles.topContainerDark;
   const radioButtonTheme = colorScheme === 'light' ? styles.RadioButtonLight : styles.RadioButtonDark;
   const BASE_URL = Constants.manifest.extra.authApiBaseUrl;
   const REGISTRATION_PATH = Constants.manifest.extra.registrationPath;
@@ -140,10 +140,12 @@ export default function Login({ navigation }: { navigation: any }) {
       });
   };
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView
+      style={topContainerColor}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-        style={backGroundColor}
+
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
@@ -473,8 +475,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 15,
-    maxWidth: 500,
+    paddingLeft: "5%",
+    paddingRight: "5%",
+    // maxWidth: 500,
   },
   RadioButtonDark: {
     color: "#fff",
@@ -494,14 +497,16 @@ const styles = StyleSheet.create({
   topContainerDark: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     margin: "auto",
+    height: "100%",
     backgroundColor: "#000000"
   },
   topContainerLight: {
     flex: 1,
+    height: "100%",
     flexDirection: 'column',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     margin: "auto",
     backgroundColor: "#fff"
   },

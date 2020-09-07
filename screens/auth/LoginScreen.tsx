@@ -28,7 +28,7 @@ export default function Login({ navigation }: { navigation: any }) {
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
   const colorScheme = useColorScheme();
   const textColor = colorScheme === 'light' ? '#000000' : '#fff';
-  const backGroundColor = colorScheme === 'light' ? styles.topContainerLight : styles.topContainerDark;
+  const topContainerColor = colorScheme === 'light' ? styles.topContainerLight : styles.topContainerDark;
   const BASE_URL = Constants.manifest.extra.authApiBaseUrl;
   const LOGIN_PATH = Constants.manifest.extra.loginPath;
   const refInput1 = useRef()
@@ -115,7 +115,7 @@ export default function Login({ navigation }: { navigation: any }) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-      style={backGroundColor}
+      style={topContainerColor}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
@@ -243,13 +243,16 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   container: {
-    maxWidth: 500,
-    padding: 5,
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   topContainerDark: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+    width: "100%",
     // alignItems: 'center',
     margin: "auto",
     backgroundColor: "#000000"

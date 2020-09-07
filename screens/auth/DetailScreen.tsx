@@ -28,7 +28,8 @@ export default function Login({ navigation }) {
   const [loading, setLoading] = useState(false);
   const colorScheme = useColorScheme();
   const textColor = colorScheme === 'light' ? '#000000' : '#fff';
-  const backGroundColor = colorScheme === 'light' ? styles.topContainerLight : styles.topContainerDark;
+  const backgroundColor = colorScheme === 'light' ? '#fff' : '#000000';
+  const topContainerColor = colorScheme === 'light' ? styles.topContainerLight : styles.topContainerDark;
   const BASE_URL = Constants.manifest.extra.authApiBaseUrl;
   const USER_PATH = Constants.manifest.extra.userPath;
   const [visible, setVisible] = useState(false);
@@ -156,7 +157,7 @@ export default function Login({ navigation }) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-      style={backGroundColor}
+      style={topContainerColor}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
@@ -313,8 +314,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 5,
-    maxWidth: 500,
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   topContainerDark: {
     flex: 1,
