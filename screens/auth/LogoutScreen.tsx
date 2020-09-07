@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from 'react';
+import React, { Component, useState } from 'react';
 import {
   View,
   KeyboardAvoidingView,
@@ -11,29 +11,24 @@ import {
 } from 'react-native';
 import { TextInput, Button, HelperText } from 'react-native-paper';
 import { useColorScheme } from 'react-native-appearance';
-import { AsyncStorage } from 'react-native';
-import PasswordResetScreen from './PasswordResetScreen'
 import axios from 'axios';
 import Constants from 'expo-constants';
 
-
-export default function Login({ navigation }: { navigation: any }) {
+export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [accessToken, setAccessToken] = useState('');
-  // const [refreshToken, setRefreshToken] = useState('');
+  const [accessToken, setAccessToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
   const [loading, setLoading] = useState(false);
   const [isinValid, setIsinValid] = useState(false);
   const [isEmailEmpty, setIsEmailEmpty] = useState(false);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
   const colorScheme = useColorScheme();
   const textColor = colorScheme === 'light' ? '#000000' : '#fff';
-  const backGroundColor = colorScheme === 'light' ? styles.topContainerLight : styles.topContainerDark;
+  const backGroundColor = colorScheme === 'light' ? '#000000' : '#fff';
+  const API_KEY = Constants.manifest.extra.apiKey;
   const BASE_URL = Constants.manifest.extra.authApiBaseUrl;
   const LOGIN_PATH = Constants.manifest.extra.loginPath;
-  const refInput1 = useRef()
-  const refInput2 = useRef()
-  const refInput3 = useRef()
 
   const login = () => {
     if (!email && !password) {
@@ -48,28 +43,13 @@ export default function Login({ navigation }: { navigation: any }) {
       return;
     }
     setLoading(true);
-    loginRequest().then((result) => {
+    loginRequest().then(() => {
       setLoading(false);
-      if (result) {
-        navigation.navigate('ユーザー詳細')
-      }
     });
   };
 
-  const setAccessToken = async (accessToken: string) => {
-    console.log(accessToken)
-    try {
-      await AsyncStorage.setItem(
-        'ACCESS_TOKEN',
-        accessToken
-      );
-    } catch (error) {
-      // Error saving data
-    }
-  }
-
   const loginRequest = async () => {
-    const result = await axios({
+    await axios({
       url: BASE_URL + LOGIN_PATH,
       method: 'POST',
       headers: {
@@ -82,40 +62,140 @@ export default function Login({ navigation }: { navigation: any }) {
     })
       .then((response: any) => {
         if (Number(response.status) == 200) {
-          setAccessToken(response.data.access_token)
-          return true
+          console.log('login success');
+          setAccessToken(response.data.access_token);
+          setRefreshToken(response.data.refresh_token);
         } else {
           setIsinValid(true);
-          return false
         }
       })
       .catch((e) => {
-        clearToken()
-        if (e.response) {
-          console.log(e.response)
-          if (e.response.data.non_field_errors) {
-            alert("メールアドレスの認証を完了させてください。")
-          }
-        }
         setIsinValid(true);
-        return false
+        if (e.response) {
+          console.log(e.response.data); // => the response payload
+        }
       });
-
-    return result;
   };
 
-  const clearToken = async () => {
-    try {
-      const value = await AsyncStorage.removeItem('ACCESS_TOKEN');
-    } catch (error) {
-      return null;
-    }
-  }
+  const logout = async () => {
+    console.log('--------logout---------');
+    await axios({
+      url: BASE_URL + '/rest/auth/logout/',
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer  ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response: any) => {
+        if (Number(response.status) == 200) {
+          console.log(response.data);
+        }
+      })
+      .catch((e) => {
+        setIsinValid(true);
+        if (e.response) {
+          console.log(e.response.status);
+          console.log(e.response.data);
+        }
+      });
+    console.log(
+      '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
+    );
+  };
+
+  const getUserData = async () => {
+    console.log('--------get userdata---------');
+    await axios({
+      url: BASE_URL + '/rest/auth/user/',
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer  ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response: any) => {
+        if (Number(response.status) == 200) {
+          console.log(response.data);
+        }
+      })
+      .catch((e) => {
+        setIsinValid(true);
+        if (e.response) {
+          console.log(e.response.status);
+          console.log(e.response.data);
+        }
+      });
+    console.log(
+      '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
+    );
+  };
+
+  const refleshToken = async () => {
+    console.log('--------get reflesh---------');
+    await axios({
+      url: BASE_URL + '/rest/auth/token/refresh/',
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer  ${accessToken}`,
+        'Content-Type': 'application/json',
+      }, data: JSON.stringify({
+        "refresh": [
+          refreshToken
+        ]
+      })
+    })
+      .then((response: any) => {
+        if (Number(response.status) == 200) {
+          console.log(response.data);
+        }
+      })
+      .catch((e) => {
+        setIsinValid(true);
+        if (e.response) {
+          console.log(e.response.status);
+          console.log(e.response.data);
+        }
+      });
+    console.log(
+      '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
+    );
+  };
+
+  const passwordReset = async () => {
+    console.log('--------get userdata---------');
+    await axios({
+      url: BASE_URL + '/rest/auth/password/reset/',
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer  ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        email: 'yuta322@gmail.com',
+      },
+    })
+      .then((response: any) => {
+        if (Number(response.status) == 200) {
+          console.log(response.data);
+        }
+      })
+      .catch((e) => {
+        setIsinValid(true);
+        if (e.response) {
+          console.log(e.response.status);
+          console.log(e.response.data);
+        }
+      });
+    console.log(
+      '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
+    );
+  };
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-      style={backGroundColor}
+      style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
@@ -136,7 +216,6 @@ export default function Login({ navigation }: { navigation: any }) {
                 textContentType="username"
                 returnKeyType="next"
                 returnKeyLabel="次へ"
-                onSubmitEditing={() => refInput1.current.focus()}
                 maxLength={50}
                 disabled={loading}
                 theme={{
@@ -165,7 +244,6 @@ export default function Login({ navigation }: { navigation: any }) {
                 textContentType="password"
                 returnKeyType="done"
                 returnKeyLabel="ログイン"
-                ref={refInput1}
                 maxLength={50}
                 secureTextEntry={true}
                 disabled={loading}
@@ -190,22 +268,46 @@ export default function Login({ navigation }: { navigation: any }) {
           <HelperText type="error" visible={isinValid}>
             認証に失敗しました。メールアドレスとパスワードを確認してください。
           </HelperText>
+          <Button
+            loading={loading}
+            style={styles.button}
+            onPress={() => logout()}
+          >
+            ログアウト
+          </Button>
+          <Button
+            loading={loading}
+            style={styles.button}
+            onPress={() => getUserData()}
+          >
+            ユーザー情報
+          </Button>
+          <Button
+            loading={loading}
+            style={styles.button}
+            onPress={() => refleshToken()}
+          >
+            リフレッシュ
+          </Button>
+          <Button
+            loading={loading}
+            style={styles.button}
+            onPress={() => passwordReset()}
+          >
+            リセット
+          </Button>
           <View style={styles.viewInline}>
             <Button
               compact={true}
               style={styles.buttonInline}
-              onPress={() => {
-                navigation.navigate('ユーザー登録')
-              }}
+              onPress={() => console.log('Pressed')}
             >
               新規登録
             </Button>
             <Button
               compact={true}
               style={styles.buttonInline}
-              onPress={() => {
-                navigation.navigate('パスワード再設定')
-              }}
+              onPress={() => console.log('Pressed')}
             >
               パスワードを忘れた
             </Button>
@@ -243,23 +345,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   container: {
-    maxWidth: 500,
+    flex: 1,
+    justifyContent: 'center',
     padding: 5,
-  },
-  topContainerDark: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    // alignItems: 'center',
-    margin: "auto",
-    backgroundColor: "#000000"
-  },
-  topContainerLight: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    // alignItems: 'center',
-    margin: "auto",
-    backgroundColor: "#fff"
+    maxWidth: 500,
   },
 });

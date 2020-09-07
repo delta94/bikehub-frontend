@@ -22,7 +22,7 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   useEffect(() => {
-    const textColor = colorScheme === 'light' ? '#000000' : '#fff';
+    const textColor = colorScheme === 'light' ? '#fff' : '#000000';
     const backGroundColor = colorScheme === 'light' ? '#000000' : '#fff';
     const theme = {
       ...DefaultTheme,

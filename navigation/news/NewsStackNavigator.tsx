@@ -2,7 +2,7 @@ import React from 'react';
 import ArticleScreen from '../../screens/news/ArticleScreen';
 import ArticleViewScreen from '../../screens/news/ArticleViewScreen';
 import { createStackNavigator } from '@react-navigation/stack';
-import TabNavigator from '../news/StackNavigator';
+import TabNavigator from './NewsTabNavigator';
 
 export default function StackNavigator() {
   const ArticleStack = createStackNavigator();
