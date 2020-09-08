@@ -63,8 +63,8 @@ export default function Login({ navigation }) {
       [
         {
           text: "キャンセル",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
+          onPress: () => //console.log("Cancel Pressed"),
+            style: "cancel"
         },
         {
           text: "削除", onPress: () => { setIsDelete(true) }
@@ -76,7 +76,7 @@ export default function Login({ navigation }) {
   const getAccessToken = async () => {
     try {
       const value = await AsyncStorage.getItem('ACCESS_TOKEN');
-      console.log(value)
+      //console.log(value)
       return value;
     } catch (error) {
       return null;
@@ -130,7 +130,7 @@ export default function Login({ navigation }) {
           logout()
         } else if (Number(response.status) == 200) {
           let fmtBirthday = "";
-          console.log(response.data)
+          //console.log(response.data)
           const userData = response.data
           if (userData.birthday) {
             const splitBirthday = userData.birthday.split('-')
@@ -144,8 +144,8 @@ export default function Login({ navigation }) {
       })
       .catch((e) => {
         if (e.response) {
-          console.log(e.response.status);
-          console.log(e.response.data);
+          //console.log(e.response.status);
+          //console.log(e.response.data);
         }
         setIsEdit(false)
         alert("ログインの有効期限が切れました再ログインしてください。")

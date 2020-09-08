@@ -7,7 +7,7 @@ let token: any = null;
 const getToken = async () => {
   try {
     const value = await AsyncStorage.getItem('ACCESS_TOKEN');
-    console.log(value)
+    //console.log(value)
     return value;
   } catch (error) {
     return null;
@@ -26,7 +26,7 @@ export default function TermsOfServiceScreen() {
         この利用規約（以下，「本規約」といいます。）は，Bike Hub（以下，「当社」といいます。）がこのウェブサイト上で提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下，「ユーザー」といいます。）には，本規約に従って，本サービスをご利用いただきます。
         </Text>
 
-        
+
       <Title>第1条（適用）</Title>
       <Text>本規約は，ユーザーと当社との間の本サービスの利用に関わる一切の関係に適用されるものとします。</Text>
 

@@ -77,6 +77,9 @@ export default function ArticleScreen({ route, navigation }: any) {
           <Text style={[styles.text, themeText]} numberOfLines={4}>
             {summary}
           </Text>
+          <Text style={[styles.textSmall, themeText]}>
+            ※続きは最下部の-オリジナルサイトで見る-から閲覧できます
+          </Text>
           <Text style={[styles.adText, themeText]} numberOfLines={4}>
             広告
           </Text>
@@ -133,6 +136,10 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginBottom: 10,
     marginTop: 10,
+  },
+  textSmall: {
+    fontSize: 15,
+    textAlign: "right"
   },
   title: {
     fontWeight: 'bold',

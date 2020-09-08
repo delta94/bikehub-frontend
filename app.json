@@ -43,7 +43,8 @@
       "passwordResetPath": "/rest/auth/password/reset/",
       "passwordChangePath": "/rest/auth/password/change/",
       "deletePath": "/rest/auth/login/",
-      "userPath": "/rest/auth/user/"
+      "userPath": "/rest/auth/user/",
+      "tokenPath": "/rest/push_notification/token/"
     },
     "description": "https://github.com/yuta-hidaka/bikehub-frontend",
     "githubUrl": "https://github.com/yuta-hidaka/bikehub-frontend"

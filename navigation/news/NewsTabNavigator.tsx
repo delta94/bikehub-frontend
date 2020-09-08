@@ -6,18 +6,22 @@ import HomeScreen from '../../screens/news/HomeScreen';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
+import axios from 'axios';
 
 const Tab = createMaterialTopTabNavigator();
+const BASE_URL = Constants.manifest.extra.authApiBaseUrl;
+const TOKEN_PATH = Constants.manifest.extra.tokenPath;
+const API_KEY = Constants.manifest.extra.apiKey;
 
 export default function TabNavigator({ route, navigation }: any) {
   const colorScheme = useColorScheme();
   const themeItemContainer =
     colorScheme === 'light' ? styles.containerLight : styles.containerDark;
 
-  const [expoPushToken, setExpoPushToken] = useState('');
+  const [expoPushToken, setExpoPushToken]: any = useState('');
   const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
+  const notificationListener: any = useRef();
+  const responseListener: any = useRef();
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token: any) => {
@@ -27,7 +31,7 @@ export default function TabNavigator({ route, navigation }: any) {
     // This listener is fired whenever a notification is received while the app is foregrounded
     // When user in app
     notificationListener.current = Notifications.addNotificationReceivedListener(
-      (notification) => {
+      (notification: any) => {
         setNotification(notification);
       }
     );
@@ -36,7 +40,7 @@ export default function TabNavigator({ route, navigation }: any) {
     // When user out side of app
     responseListener.current = Notifications.addNotificationResponseReceivedListener(
       (response) => {
-        console.log(response);
+        // //console.log(response);
         const data: any = response.notification.request.content.data.body;
         navigation.navigate('記事', {
           title: data.title,
@@ -156,6 +160,18 @@ const styles = StyleSheet.create({
   },
 });
 
+const tokenRegistration = async (token: any) => {
+  await axios({
+    url: BASE_URL + TOKEN_PATH,
+    method: 'POST',
+    headers: {
+      Authorization: API_KEY,
+      'Content-Type': 'application/json',
+    },
+    data: { token: token }
+  })
+}
+
 async function registerForPushNotificationsAsync() {
   try {
     let token;
@@ -175,7 +191,8 @@ async function registerForPushNotificationsAsync() {
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
+      tokenRegistration(token)
+      //console.log(token);
     } else {
       alert('Must use physical device for Push Notifications');
     }

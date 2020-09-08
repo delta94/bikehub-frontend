@@ -83,7 +83,7 @@ export default function HomeScreen({ route, navigation }: any) {
         }
       })
       .catch((e) => {
-        console.log(e);
+        //console.log(e);
       });
   };
 

@@ -62,7 +62,7 @@ export default function Login() {
     })
       .then((response: any) => {
         if (Number(response.status) == 200) {
-          console.log('login success');
+          //console.log('login success');
           setAccessToken(response.data.access_token);
           setRefreshToken(response.data.refresh_token);
         } else {
@@ -72,13 +72,13 @@ export default function Login() {
       .catch((e) => {
         setIsinValid(true);
         if (e.response) {
-          console.log(e.response.data); // => the response payload
+          //console.log(e.response.data); // => the response payload
         }
       });
   };
 
   const logout = async () => {
-    console.log('--------logout---------');
+    //console.log('--------logout---------');
     await axios({
       url: BASE_URL + '/rest/auth/logout/',
       method: 'POST',
@@ -89,233 +89,233 @@ export default function Login() {
     })
       .then((response: any) => {
         if (Number(response.status) == 200) {
-          console.log(response.data);
+          //console.log(response.data);
         }
       })
       .catch((e) => {
         setIsinValid(true);
         if (e.response) {
-          console.log(e.response.status);
-          console.log(e.response.data);
+          //console.log(e.response.status);
+          //console.log(e.response.data);
         }
       });
-    console.log(
-      '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
+    //console.log(
+    '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
     );
-  };
+};
 
-  const getUserData = async () => {
-    console.log('--------get userdata---------');
-    await axios({
-      url: BASE_URL + '/rest/auth/user/',
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer  ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
+const getUserData = async () => {
+  //console.log('--------get userdata---------');
+  await axios({
+    url: BASE_URL + '/rest/auth/user/',
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer  ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response: any) => {
+      if (Number(response.status) == 200) {
+        //console.log(response.data);
+      }
     })
-      .then((response: any) => {
-        if (Number(response.status) == 200) {
-          console.log(response.data);
-        }
-      })
-      .catch((e) => {
-        setIsinValid(true);
-        if (e.response) {
-          console.log(e.response.status);
-          console.log(e.response.data);
-        }
-      });
-    console.log(
-      '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
+    .catch((e) => {
+      setIsinValid(true);
+      if (e.response) {
+        //console.log(e.response.status);
+        //console.log(e.response.data);
+      }
+    });
+  //console.log(
+  '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
     );
   };
 
-  const refleshToken = async () => {
-    console.log('--------get reflesh---------');
-    await axios({
-      url: BASE_URL + '/rest/auth/token/refresh/',
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer  ${accessToken}`,
-        'Content-Type': 'application/json',
-      }, data: JSON.stringify({
-        "refresh": [
-          refreshToken
-        ]
-      })
+const refleshToken = async () => {
+  //console.log('--------get reflesh---------');
+  await axios({
+    url: BASE_URL + '/rest/auth/token/refresh/',
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer  ${accessToken}`,
+      'Content-Type': 'application/json',
+    }, data: JSON.stringify({
+      "refresh": [
+        refreshToken
+      ]
     })
-      .then((response: any) => {
-        if (Number(response.status) == 200) {
-          console.log(response.data);
-        }
-      })
-      .catch((e) => {
-        setIsinValid(true);
-        if (e.response) {
-          console.log(e.response.status);
-          console.log(e.response.data);
-        }
-      });
-    console.log(
-      '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
-    );
-  };
-
-  const passwordReset = async () => {
-    console.log('--------get userdata---------');
-    await axios({
-      url: BASE_URL + '/rest/auth/password/reset/',
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer  ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: {
-        email: 'yuta322@gmail.com',
-      },
+  })
+    .then((response: any) => {
+      if (Number(response.status) == 200) {
+        //console.log(response.data);
+      }
     })
-      .then((response: any) => {
-        if (Number(response.status) == 200) {
-          console.log(response.data);
-        }
-      })
-      .catch((e) => {
-        setIsinValid(true);
-        if (e.response) {
-          console.log(e.response.status);
-          console.log(e.response.data);
-        }
-      });
-    console.log(
-      '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
+    .catch((e) => {
+      setIsinValid(true);
+      if (e.response) {
+        //console.log(e.response.status);
+        //console.log(e.response.data);
+      }
+    });
+  //console.log(
+  '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
     );
   };
 
-  return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <View>
-            <View style={styles.textInputWrapper}>
-              <TextInput
-                underlineColor={textColor}
-                label="Email"
-                onChangeText={(text) => {
-                  if (!text) {
-                    setIsEmailEmpty(true);
-                  } else {
-                    setIsEmailEmpty(false);
-                  }
-                  setEmail(text);
-                }}
-                autoCompleteType="username"
-                textContentType="username"
-                returnKeyType="next"
-                returnKeyLabel="次へ"
-                maxLength={50}
-                disabled={loading}
-                theme={{
-                  colors: {
-                    text: textColor,
-                  },
-                }}
-              />
-              <HelperText type="error" visible={isEmailEmpty}>
-                メールアドレスを入力してください。
+const passwordReset = async () => {
+  //console.log('--------get userdata---------');
+  await axios({
+    url: BASE_URL + '/rest/auth/password/reset/',
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer  ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    data: {
+      email: 'yuta322@gmail.com',
+    },
+  })
+    .then((response: any) => {
+      if (Number(response.status) == 200) {
+        //console.log(response.data);
+      }
+    })
+    .catch((e) => {
+      setIsinValid(true);
+      if (e.response) {
+        //console.log(e.response.status);
+        //console.log(e.response.data);
+      }
+    });
+  //console.log(
+  '--------logout↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑---------'
+    );
+  };
+
+return (
+  <KeyboardAvoidingView
+    behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+    style={styles.container}
+  >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <View>
+          <View style={styles.textInputWrapper}>
+            <TextInput
+              underlineColor={textColor}
+              label="Email"
+              onChangeText={(text) => {
+                if (!text) {
+                  setIsEmailEmpty(true);
+                } else {
+                  setIsEmailEmpty(false);
+                }
+                setEmail(text);
+              }}
+              autoCompleteType="username"
+              textContentType="username"
+              returnKeyType="next"
+              returnKeyLabel="次へ"
+              maxLength={50}
+              disabled={loading}
+              theme={{
+                colors: {
+                  text: textColor,
+                },
+              }}
+            />
+            <HelperText type="error" visible={isEmailEmpty}>
+              メールアドレスを入力してください。
               </HelperText>
-            </View>
-            <View style={styles.textInputWrapper}>
-              <TextInput
-                underlineColor={textColor}
-                label="Password"
-                onChangeText={(text) => {
-                  if (!text) {
-                    setIsPasswordEmpty(true);
-                  } else {
-                    setIsPasswordEmpty(false);
-                  }
-                  setPassword(text);
-                }}
-                autoCompleteType="password"
-                textContentType="password"
-                returnKeyType="done"
-                returnKeyLabel="ログイン"
-                maxLength={50}
-                secureTextEntry={true}
-                disabled={loading}
-                theme={{
-                  colors: {
-                    text: textColor,
-                  },
-                }}
-              />
-              <HelperText type="error" visible={isPasswordEmpty}>
-                パスワードを入力してください。
-              </HelperText>
-            </View>
           </View>
-          <Button
-            loading={loading}
-            style={styles.button}
-            onPress={() => login()}
-          >
-            ログイン
+          <View style={styles.textInputWrapper}>
+            <TextInput
+              underlineColor={textColor}
+              label="Password"
+              onChangeText={(text) => {
+                if (!text) {
+                  setIsPasswordEmpty(true);
+                } else {
+                  setIsPasswordEmpty(false);
+                }
+                setPassword(text);
+              }}
+              autoCompleteType="password"
+              textContentType="password"
+              returnKeyType="done"
+              returnKeyLabel="ログイン"
+              maxLength={50}
+              secureTextEntry={true}
+              disabled={loading}
+              theme={{
+                colors: {
+                  text: textColor,
+                },
+              }}
+            />
+            <HelperText type="error" visible={isPasswordEmpty}>
+              パスワードを入力してください。
+              </HelperText>
+          </View>
+        </View>
+        <Button
+          loading={loading}
+          style={styles.button}
+          onPress={() => login()}
+        >
+          ログイン
           </Button>
-          <HelperText type="error" visible={isinValid}>
-            認証に失敗しました。メールアドレスとパスワードを確認してください。
+        <HelperText type="error" visible={isinValid}>
+          認証に失敗しました。メールアドレスとパスワードを確認してください。
           </HelperText>
-          <Button
-            loading={loading}
-            style={styles.button}
-            onPress={() => logout()}
-          >
-            ログアウト
+        <Button
+          loading={loading}
+          style={styles.button}
+          onPress={() => logout()}
+        >
+          ログアウト
           </Button>
-          <Button
-            loading={loading}
-            style={styles.button}
-            onPress={() => getUserData()}
-          >
-            ユーザー情報
+        <Button
+          loading={loading}
+          style={styles.button}
+          onPress={() => getUserData()}
+        >
+          ユーザー情報
           </Button>
-          <Button
-            loading={loading}
-            style={styles.button}
-            onPress={() => refleshToken()}
-          >
-            リフレッシュ
+        <Button
+          loading={loading}
+          style={styles.button}
+          onPress={() => refleshToken()}
+        >
+          リフレッシュ
           </Button>
-          <Button
-            loading={loading}
-            style={styles.button}
-            onPress={() => passwordReset()}
-          >
-            リセット
+        <Button
+          loading={loading}
+          style={styles.button}
+          onPress={() => passwordReset()}
+        >
+          リセット
           </Button>
-          <View style={styles.viewInline}>
-            <Button
-              compact={true}
-              style={styles.buttonInline}
-              onPress={() => console.log('Pressed')}
+        <View style={styles.viewInline}>
+          <Button
+            compact={true}
+            style={styles.buttonInline}
+            onPress={() => //console.log('Pressed')}
             >
               新規登録
             </Button>
             <Button
-              compact={true}
-              style={styles.buttonInline}
-              onPress={() => console.log('Pressed')}
+            compact={true}
+            style={styles.buttonInline}
+            onPress={() => //console.log('Pressed')}
             >
               パスワードを忘れた
             </Button>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
-  );
+      </View>
+    </TouchableWithoutFeedback>
+  </KeyboardAvoidingView>
+);
 }
 
 const styles = StyleSheet.create({
