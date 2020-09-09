@@ -18,32 +18,26 @@ declare global {
 }
 
 export default function App() {
-  const [theme, setTheme] = useState(DefaultTheme);
   const colorScheme = useColorScheme();
-
-  useEffect(() => {
-    const textColor = colorScheme === 'light' ? '#fff' : '#000000';
-    const backGroundColor = colorScheme === 'light' ? '#000000' : '#fff';
-    const theme = {
-      ...DefaultTheme,
-      roundness: 4,
-      colors: {
-        ...DefaultTheme.colors,
-        primary: 'green',
-        // accent: textColor,
-        background: 'transparent',
-        // contained: textColor,
-        placeholder: 'green',
-        text: textColor,
-      },
-      dark: true,
-    };
-    setTheme(theme);
-  }, []);
-
+  const textColor = colorScheme === 'light' ? '#000000' : '#fff';
+  const backGroundColor = colorScheme === 'light' ? '#fff' : '#000000';
+  const CustomTheme = {
+    ...DefaultTheme,
+    roundness: 4,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: 'green',
+      // accent: textColor,
+      background: 'transparent',
+      // contained: textColor,
+      placeholder: 'green',
+      text: textColor,
+    },
+    dark: true,
+  };
   return (
     <AppearanceProvider>
-      <PaperProvider theme={theme}>
+      <PaperProvider theme={CustomTheme}>
         <AppNavigator />
       </PaperProvider>
     </AppearanceProvider>

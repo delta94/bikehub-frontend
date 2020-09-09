@@ -8,7 +8,7 @@ import Constants from 'expo-constants';
 import { useColorScheme } from 'react-native-appearance';
 import BikeCard from '../../components/fc/BikeCard'
 
-export default function SearchFcScreen() {
+export default function SearchFcScreen({ navigation }) {
     const colorScheme = useColorScheme();
     const backgroundColor = colorScheme === 'light' ? styles.searchBoxLight : styles.searchBoxDark;
     const textColor = colorScheme === 'light' ? '#000000' : '#fff';
@@ -24,14 +24,13 @@ export default function SearchFcScreen() {
     const [bikeData, setBikeData]: any = useState([]);
     const onChangeSearch = (query: any) => setSearchQuery(query);
     useEffect(() => {
+        console.log("effect")
         setNextPage(1)
         setBikeData([])
         searchFc(1, [])
     }, [])
     const searchFc = async (page: number, bikes: any) => {
         const query = searchQuery ? `?search=${searchQuery}&page=${page}` : `?page=${page}`
-        console.log("query")
-        console.log(query)
         if (isNoNext) return
         await axios({
             url: BASE_URL + BIKE_PATH + query,
@@ -97,18 +96,19 @@ export default function SearchFcScreen() {
         <SafeAreaView style={styles.container} >
             <View style={{ maxWidth: 500 }}>
                 <Searchbar
-                    placeholder="検索キーワード"
+                    placeholder="検索キーワード 例:Kawasaki Ninja H2"
                     iconColor={textColor}
                     inputStyle={{ color: textColor, fontSize: 22 }}
                     onChangeText={onChangeSearch}
                     onEndEditing={() => {
+                        console.log("change edit")
                         setNextPage(1)
                         setBikeData([])
                         searchFc(1, [])
                     }}
                     value={searchQuery}
                     style={backgroundColor}
-                    autoFocus={true}
+                // autoFocus={true}
                 // clearTextOnFocus={true}
                 />
 
@@ -126,16 +126,16 @@ export default function SearchFcScreen() {
                             minFc={item.fc.fc_min.min ? item.fc.fc_min.min : 0}
                             avgFc={item.fc.fc_avg.avg ? item.fc.fc_avg.avg : 0}
                             maker={item.bike.maker}
-                            onPress={() => {
-                                // MainTagCounter()
-                                // navigation.navigate('記事', {
-                                //     title: item.title,
-                                //     author: item.site.name,
-                                //     imgUrl: item.featured_image,
-                                //     summary: item.summary,
-                                //     url: item.url,
-                                // })
-                            }
+                            onPress={() =>
+                                navigation.navigate('燃費詳細', {
+                                    bikeName: item.bike.bike_name,
+                                    bikeId: item.bike.bike_id,
+                                    isPublicView: false,
+                                    maxFc: item.fc.fc_max.max ? item.fc.fc_max.max : 0,
+                                    minFc: item.fc.fc_min.min ? item.fc.fc_min.min : 0,
+                                    avgFc: item.fc.fc_avg.avg ? item.fc.fc_avg.avg : 0,
+                                    maker: item.bike.maker
+                                })
                             }
                         />
                     )}
@@ -151,11 +151,11 @@ export default function SearchFcScreen() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
+        flexGrow: 1,
+        // justifyContent: 'center',
         marginTop: 30,
-        flexDirection: 'row',
-        alignItems: 'center',
+        // flexDirection: 'row',
+        // alignItems: 'center',
     },
     searchBoxDark: {
         marginTop: 2,

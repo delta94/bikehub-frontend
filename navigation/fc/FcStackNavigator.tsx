@@ -1,6 +1,7 @@
 import React from 'react';
 import LoginScreen from '../../screens/auth/LoginScreen';
 import SearchFcScreen from '../../screens/fc/SearchFcScreen';
+import FcDetailScreen from '../../screens/fc/FcDetailScreen';
 import HomeFcScreen from '../../screens/fc/HomeFcScreen';
 import PasswordResetScreen from '../../screens/auth/PasswordResetScreen';
 import RegistrationScreen from '../../screens/auth/RegistrationScreen';
@@ -43,6 +44,17 @@ export default function StackNavigator({ initialRouteName }: { initialRouteName:
             vertical: 135,
           },
         }}
+      />
+      <FcStack.Screen
+        name="燃費詳細"
+        options={({ route }) => ({
+          title: route.params.bikeName,
+          gestureResponseDistance: {
+            horizontal: 1000,
+            vertical: 135,
+          },
+        })}
+        component={FcDetailScreen}
       />
       <FcStack.Screen
         name="ログイン"
