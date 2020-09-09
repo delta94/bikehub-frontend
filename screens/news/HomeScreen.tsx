@@ -16,7 +16,9 @@ import { useFocusEffect } from '@react-navigation/native';
 
 const BASE_URL = Constants.manifest.extra.newsApiBaseUrl;
 const PATH = Constants.manifest.extra.newsApiPath;
+const MAIN_TAG_PATH = Constants.manifest.extra.MainTagsPath;
 const API_KEY = Constants.manifest.extra.apiKey;
+const MainTagsHomeID = Constants.manifest.extra.MainTagsHomeID;
 
 export default function HomeScreen({ route, navigation }: any) {
   const category = route.params.category;
@@ -26,6 +28,7 @@ export default function HomeScreen({ route, navigation }: any) {
   const [nextPage, setnextPage] = useState(1);
   const [isNoNext, setIsNoNext] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
+  
   const themeItemContainer =
     colorScheme === 'light' ? styles.containerLight : styles.containerDark;
   useFocusEffect(
@@ -44,6 +47,24 @@ export default function HomeScreen({ route, navigation }: any) {
   const onRefresh = useCallback(() => {
     setRefreshing(true);
   }, []);
+
+  const MainTagCounter = async () => {
+    console.log(category)
+    let c = category ? category : MainTagsHomeID
+    console.log(BASE_URL + MAIN_TAG_PATH + c)
+
+    await axios(BASE_URL + MAIN_TAG_PATH + c + '/', {
+      method: 'PATCH',
+      headers: {
+        Authorization: API_KEY,
+      },
+    })
+      .then((response: any) => {
+      })
+      .catch((e) => {
+        console.log(e.response)
+      });
+  }
 
   const fetchArticles = async () => {
     if (isNoNext && !refreshing) {
@@ -83,7 +104,7 @@ export default function HomeScreen({ route, navigation }: any) {
         }
       })
       .catch((e) => {
-        //console.log(e);
+        console.log(e);
       });
   };
 
@@ -94,7 +115,7 @@ export default function HomeScreen({ route, navigation }: any) {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          contentContainerStyle={styles.listView}
+          // contentContainerStyle={styles.listView}
           data={newsData}
           extraData={newsData}
           onEndReachedThreshold={0.3}
@@ -106,7 +127,8 @@ export default function HomeScreen({ route, navigation }: any) {
               title={item.title}
               author={item.site.name}
               imgUrl={item.featured_image}
-              onPress={() =>
+              onPress={() => {
+                MainTagCounter()
                 navigation.navigate('記事', {
                   title: item.title,
                   author: item.site.name,
@@ -114,6 +136,7 @@ export default function HomeScreen({ route, navigation }: any) {
                   summary: item.summary,
                   url: item.url,
                 })
+              }
               }
             />
           )}
@@ -136,5 +159,4 @@ const styles = StyleSheet.create({
   containerLight: {
     backgroundColor: '#fff',
   },
-  listView: {},
 });

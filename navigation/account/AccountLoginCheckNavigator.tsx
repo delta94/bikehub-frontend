@@ -1,13 +1,13 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { AsyncStorage } from 'react-native';
-import AccountStackNavigator from '../../navigation/account/AccountStackNavigator';
+import AccountStackNavigator from './AccountStackNavigator';
 
 let token: any = null;
 const getToken = async () => {
   try {
     const value = await AsyncStorage.getItem('ACCESS_TOKEN');
-    //console.log(value)
+    console.log(value)
     return value;
   } catch (error) {
     return null;

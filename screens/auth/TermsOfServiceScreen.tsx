@@ -7,7 +7,7 @@ let token: any = null;
 const getToken = async () => {
   try {
     const value = await AsyncStorage.getItem('ACCESS_TOKEN');
-    //console.log(value)
+    console.log(value)
     return value;
   } catch (error) {
     return null;

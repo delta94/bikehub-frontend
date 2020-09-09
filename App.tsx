@@ -33,7 +33,7 @@ export default function App() {
         // accent: textColor,
         background: 'transparent',
         // contained: textColor,
-        placeholder: '#66cc00',
+        placeholder: 'green',
         text: textColor,
       },
       dark: true,

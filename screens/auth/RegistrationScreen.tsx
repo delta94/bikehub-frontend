@@ -121,8 +121,8 @@ export default function Login({ navigation }: { navigation: any }) {
       "password2": password2
     }
 
-    //console.log(data)
-    //console.log(BASE_URL + REGISTRATION_PATH)
+    console.log(data)
+    console.log(BASE_URL + REGISTRATION_PATH)
 
     await axios({
       url: BASE_URL + REGISTRATION_PATH,
@@ -134,8 +134,8 @@ export default function Login({ navigation }: { navigation: any }) {
         navigation.navigate('ログイン')
       })
       .catch((e) => {
-        //console.log(e.response.data);
-        //console.log(e.response);
+        console.log(e.response.data);
+        console.log(e.response);
         alert("このメールアドレスはすでに登録されています。")
       });
   };
@@ -152,6 +152,7 @@ export default function Login({ navigation }: { navigation: any }) {
             <View>
               <View style={styles.textInputWrapper}>
                 <TextInput
+                  autoFocus={true}
                   underlineColor={textColor}
                   label="ニックネーム"
                   onChangeText={(text) => { setDispName(text) }}
@@ -377,8 +378,8 @@ export default function Login({ navigation }: { navigation: any }) {
                   setPassword2(text);
                 }}
                 importantForAutofill="yes"
-                onSubmitEditing={() => //console.log("done")}
-                  ref = { refInput8 }
+                onSubmitEditing={() => console.log("done")}
+                ref={refInput8}
                 autoCompleteType="password"
                 textContentType="newPassword"
                 returnKeyType="done"

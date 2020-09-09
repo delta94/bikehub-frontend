@@ -1,11 +1,11 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AccountStackNavigator from './account/AccountStackNavigator';
 import StackNavigator from './news/NewsStackNavigator';
 import { useColorScheme } from 'react-native-appearance';
 import { StyleSheet } from 'react-native';
-import HomeAccountScreen from '../screens/auth/HomeAccountScreen'
+import AccountLoginCheckNavigator from './account/AccountLoginCheckNavigator'
+import FcStackNavigator from './fc/FcStackNavigator'
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -36,7 +36,7 @@ export default function BottomNavigator() {
       />
       <Tab.Screen
         name="Fc"
-        component={HomeAccountScreen}
+        component={FcStackNavigator}
         options={{
           tabBarLabel: '燃費登録',
           tabBarIcon: ({ color }) => (
@@ -50,7 +50,7 @@ export default function BottomNavigator() {
       />
       <Tab.Screen
         name="SavedArticle"
-        component={HomeAccountScreen}
+        component={AccountLoginCheckNavigator}
         options={{
           tabBarLabel: '保存記事',
           tabBarIcon: ({ color }) => (
@@ -60,7 +60,7 @@ export default function BottomNavigator() {
       />
       <Tab.Screen
         name="Profile"
-        component={HomeAccountScreen}
+        component={AccountLoginCheckNavigator}
         options={{
           tabBarLabel: 'ユーザー',
           tabBarIcon: ({ color }) => (

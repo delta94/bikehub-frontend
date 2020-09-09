@@ -63,8 +63,7 @@ export default function Login({ navigation }) {
       [
         {
           text: "キャンセル",
-          onPress: () => //console.log("Cancel Pressed"),
-            style: "cancel"
+          style: "cancel"
         },
         {
           text: "削除", onPress: () => { setIsDelete(true) }
@@ -76,7 +75,7 @@ export default function Login({ navigation }) {
   const getAccessToken = async () => {
     try {
       const value = await AsyncStorage.getItem('ACCESS_TOKEN');
-      //console.log(value)
+      console.log(value)
       return value;
     } catch (error) {
       return null;
@@ -130,7 +129,7 @@ export default function Login({ navigation }) {
           logout()
         } else if (Number(response.status) == 200) {
           let fmtBirthday = "";
-          //console.log(response.data)
+          console.log(response.data)
           const userData = response.data
           if (userData.birthday) {
             const splitBirthday = userData.birthday.split('-')
@@ -144,8 +143,8 @@ export default function Login({ navigation }) {
       })
       .catch((e) => {
         if (e.response) {
-          //console.log(e.response.status);
-          //console.log(e.response.data);
+          console.log(e.response.status);
+          console.log(e.response.data);
         }
         setIsEdit(false)
         alert("ログインの有効期限が切れました再ログインしてください。")
@@ -184,7 +183,6 @@ export default function Login({ navigation }) {
                   },
                 }}
               />
-              <MaterialCommunityIcons name="newspaper" size={26} />
             </View>
 
             <View style={styles.textInputWrapper}>
@@ -193,7 +191,6 @@ export default function Login({ navigation }) {
               </HelperText>
               <TextInput
                 underlineColor={textColor}
-                label="メールアドレス"
                 autoCompleteType="email"
                 textContentType="emailAddress"
                 returnKeyType="done"
@@ -215,7 +212,6 @@ export default function Login({ navigation }) {
               </HelperText>
               <TextInput
                 underlineColor={textColor}
-                label="誕生日"
                 autoCompleteType="password"
                 textContentType="password"
                 returnKeyType="done"
@@ -278,13 +274,15 @@ const styles = StyleSheet.create({
   buttonDanger: {
     backgroundColor: 'transparent',
     borderColor: 'red',
-    borderWidth: 1,
+    borderRadius: 0,
+    borderWidth: 0.5,
     paddingHorizontal: 0,
   },
   button: {
     backgroundColor: 'transparent',
     borderColor: "#c0c0c0",
-    borderWidth: 1,
+    borderRadius: 0,
+    borderWidth: 0.5,
     paddingHorizontal: 0,
   },
   buttonDangerWrapper: {

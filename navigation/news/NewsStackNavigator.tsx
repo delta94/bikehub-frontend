@@ -3,12 +3,19 @@ import ArticleScreen from '../../screens/news/ArticleScreen';
 import ArticleViewScreen from '../../screens/news/ArticleViewScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import TabNavigator from './NewsTabNavigator';
+import { useColorScheme } from 'react-native-appearance';
 
 export default function StackNavigator() {
   const ArticleStack = createStackNavigator();
+  const colorScheme = useColorScheme();
+  const textColor = colorScheme === 'light' ? '#000000' : '#fff';
 
   return (
-    <ArticleStack.Navigator>
+    <ArticleStack.Navigator
+      screenOptions={{
+        headerTintColor: textColor,
+      }}
+    >
       <ArticleStack.Screen
         name="Home"
         component={TabNavigator}

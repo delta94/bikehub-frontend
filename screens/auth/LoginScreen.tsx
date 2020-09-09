@@ -57,7 +57,7 @@ export default function Login({ navigation }: { navigation: any }) {
   };
 
   const setAccessToken = async (accessToken: string) => {
-    //console.log(accessToken)
+    console.log(accessToken)
     try {
       await AsyncStorage.setItem(
         'ACCESS_TOKEN',
@@ -92,7 +92,7 @@ export default function Login({ navigation }: { navigation: any }) {
       .catch((e) => {
         clearToken()
         if (e.response) {
-          //console.log(e.response)
+          console.log(e.response)
           if (e.response.data.non_field_errors) {
             alert("メールアドレスの認証を完了させてください。")
           }
@@ -122,6 +122,7 @@ export default function Login({ navigation }: { navigation: any }) {
           <View>
             <View style={styles.textInputWrapper}>
               <TextInput
+                autoFocus={true}
                 underlineColor={textColor}
                 label="Email"
                 onChangeText={(text) => {

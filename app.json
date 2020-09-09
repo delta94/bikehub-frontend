@@ -37,6 +37,9 @@
       "newsApiBaseUrl": "http://133.167.102.92:8888",
       "authApiBaseUrl": "http://133.167.102.92:8888",
       "newsApiPath": "/rest/news/",
+      "fcApiPath": "/rest/bike/fc/",
+      "fcSummaryApiPath": "/rest/bike/fc/detail/",
+      "bikeApiPath": "/rest/bike/",
       "loginPath": "/rest/auth/login/",
       "logoutPath": "/rest/auth/logout/",
       "registrationPath": "/rest/auth/registration/",
@@ -44,7 +47,9 @@
       "passwordChangePath": "/rest/auth/password/change/",
       "deletePath": "/rest/auth/login/",
       "userPath": "/rest/auth/user/",
-      "tokenPath": "/rest/push_notification/token/"
+      "tokenPath": "/rest/push_notification/token/",
+      "MainTagsPath": "/rest/news/mainTags/",
+      "MainTagsHomeID": "4b48c4cc-c273-415f-b6b9-bc4ae24c53be"
     },
     "description": "https://github.com/yuta-hidaka/bikehub-frontend",
     "githubUrl": "https://github.com/yuta-hidaka/bikehub-frontend"
