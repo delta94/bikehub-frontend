@@ -18,7 +18,7 @@ import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import Constants from 'expo-constants';
 
-export default function Login({ navigation }) {
+export default function Login({ navigation }: { navigation: any }) {
   const [isActive, setIsActive] = useState(true);
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
@@ -84,7 +84,8 @@ export default function Login({ navigation }) {
 
   const logout = async () => {
     try {
-      const value = await AsyncStorage.removeItem('ACCESS_TOKEN');
+      clearToken()
+      clearUserId()
     } catch (error) {
       navigation.navigate('ログイン');
       return null;
@@ -92,12 +93,29 @@ export default function Login({ navigation }) {
     navigation.navigate('ログイン');
   }
 
+
+  const clearToken = async () => {
+    try {
+      await AsyncStorage.removeItem('ACCESS_TOKEN');
+    } catch (error) {
+      return null;
+    }
+  }
+  const clearUserId = async () => {
+    try {
+      await AsyncStorage.removeItem('USER_ID');
+    } catch (error) {
+      return null;
+    }
+  }
+
+
   const getUserData = () => {
     getAccessToken().then((token) => {
       sendData(token)
     })
   }
-  const sendData = async (token: string) => {
+  const sendData = async (token: any) => {
     let data: any = null;
     let method: any = 'GET';
     if (isEdit) {

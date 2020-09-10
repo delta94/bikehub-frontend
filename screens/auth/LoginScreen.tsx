@@ -56,13 +56,21 @@ export default function Login({ navigation }: { navigation: any }) {
     });
   };
 
-  const setAccessToken = async (accessToken: string, userId: string) => {
+  const setAccessToken = async (accessToken: string) => {
     console.log(accessToken)
     try {
       await AsyncStorage.setItem(
         'ACCESS_TOKEN',
         accessToken
       );
+    } catch (error) {
+      // Error saving data
+    }
+  }
+
+  const setUserId = async (userId: string) => {
+    console.log(userId)
+    try {
       await AsyncStorage.setItem(
         'USER_ID',
         userId
@@ -89,6 +97,8 @@ export default function Login({ navigation }: { navigation: any }) {
           console.log(response.data)
           setAccessToken(
             response.data.access_token,
+          )
+          setUserId(
             response.data.user.pk
           )
           return true
@@ -99,6 +109,7 @@ export default function Login({ navigation }: { navigation: any }) {
       })
       .catch((e) => {
         clearToken()
+        clearUserId()
         if (e.response) {
           if (e.response.data.non_field_errors) {
             alert("メールアドレスの認証を完了させてください。")
@@ -114,6 +125,12 @@ export default function Login({ navigation }: { navigation: any }) {
   const clearToken = async () => {
     try {
       await AsyncStorage.removeItem('ACCESS_TOKEN');
+    } catch (error) {
+      return null;
+    }
+  }
+  const clearUserId = async () => {
+    try {
       await AsyncStorage.removeItem('USER_ID');
     } catch (error) {
       return null;

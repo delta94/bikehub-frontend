@@ -1,35 +1,49 @@
 import React from 'react'
 import {
   StyleSheet,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
+  FlatList
 } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import BikeCard from './BikeCard'
 
 type NewsCardProps = {
-  title: string;
-  author: string;
-  imgUrl: string;
+  bikeData: any;
+  isPublicView: boolean;
+  searchFc: void;
   onPress: any;
 };
 
-export default function FcList() {
+export default function FcList({ bikeData, isPublicView, searchFc }) {
   return (
-    <TouchableOpacity
-      style={[styles.itemContainer, themeItemContainer]}
-      onPress={onPress}
-    >
-      <View style={styles.leftContainer}>
-        <Text numberOfLines={3} style={[styles.text, themeText]}>
-          {title}
-        </Text>
-        <Text style={[styles.title, themeTitle]}>{author}</Text>
-      </View>
-      <View style={styles.rightContainer}>{image}</View>
-    </TouchableOpacity>
+    <FlatList
+      data={bikeData}
+      extraData={bikeData}
+      onEndReachedThreshold={0}
+      onEndReached={() => {
+        searchFc(nextPage, bikeData);
+      }}
+      renderItem={({ item }: any) => (
+        < BikeCard
+          bikeName={item.bike.bike_name}
+          maxFc={item.fc.fc_max.max ? item.fc.fc_max.max : 0}
+          minFc={item.fc.fc_min.min ? item.fc.fc_min.min : 0}
+          avgFc={item.fc.fc_avg.avg ? item.fc.fc_avg.avg : 0}
+          maker={item.bike.maker}
+          onPress={() =>
+            navigation.navigate('燃費詳細', {
+              bikeName: item.bike.bike_name,
+              bikeId: item.bike.bike_id,
+              isPublicView: isPublicView,
+              maxFc: item.fc.fc_max.max ? item.fc.fc_max.max : 0,
+              minFc: item.fc.fc_min.min ? item.fc.fc_min.min : 0,
+              avgFc: item.fc.fc_avg.avg ? item.fc.fc_avg.avg : 0,
+              maker: item.bike.maker
+            })
+          }
+        />
+      )}
+      keyExtractor={(item: any, index: Number) => index.toString()}
+    />
   )
 }
 

@@ -24,7 +24,9 @@ export default function StackNavigator({ initialRouteName }: { initialRouteName:
       <AccountStack.Screen
         name="ログイン"
         component={LoginScreen}
+
         options={{
+          gestureEnabled: false,
           headerShown: false,
           gestureResponseDistance: {
             horizontal: 1000,
@@ -46,6 +48,7 @@ export default function StackNavigator({ initialRouteName }: { initialRouteName:
         name="ユーザー詳細"
         component={DetailScreen}
         options={{
+          gestureEnabled: false,
           headerShown: false,
           gestureResponseDistance: {
             horizontal: 1000,

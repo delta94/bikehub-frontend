@@ -2,19 +2,18 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Searchbar } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 
-import { StyleSheet, SafeAreaView, ScrollView, View, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, Text, View, FlatList } from 'react-native';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import { useColorScheme } from 'react-native-appearance';
 import BikeCard from '../../components/fc/BikeCard'
 
-export default function SearchFcScreen({ navigation }) {
+export default function searchBikeScreen({ navigation }: { navigation: any }) {
     const colorScheme = useColorScheme();
     const backgroundColor = colorScheme === 'light' ? styles.searchBoxLight : styles.searchBoxDark;
     const textColor = colorScheme === 'light' ? '#000000' : '#fff';
     const API_KEY = Constants.manifest.extra.apiKey;
     const BASE_URL = Constants.manifest.extra.authApiBaseUrl;
-    // const FC_PATH = Constants.manifest.extra.fcApiPath;
     const BIKE_PATH = Constants.manifest.extra.bikeApiPath;
     const FC_SUMMARY_PATH = Constants.manifest.extra.fcSummaryApiPath;
     const [nextPage, setNextPage] = useState(1);
@@ -27,9 +26,9 @@ export default function SearchFcScreen({ navigation }) {
         console.log("effect")
         setNextPage(1)
         setBikeData([])
-        searchFc(1, [])
+        searchBike(1, [])
     }, [])
-    const searchFc = async (page: number, bikes: any) => {
+    const searchBike = async (page: number, bikes: any) => {
         const query = searchQuery ? `?search=${searchQuery}&page=${page}` : `?page=${page}`
         if (isNoNext) return
         await axios({
@@ -96,7 +95,7 @@ export default function SearchFcScreen({ navigation }) {
         <SafeAreaView style={styles.container} >
             <View style={{ maxWidth: 500 }}>
                 <Searchbar
-                    placeholder="検索キーワード 例:Kawasaki Ninja H2"
+                    placeholder="入力例:Kawasaki Ninja H2"
                     iconColor={textColor}
                     inputStyle={{ color: textColor, fontSize: 22 }}
                     onChangeText={onChangeSearch}
@@ -104,7 +103,7 @@ export default function SearchFcScreen({ navigation }) {
                         console.log("change edit")
                         setNextPage(1)
                         setBikeData([])
-                        searchFc(1, [])
+                        searchBike(1, [])
                     }}
                     value={searchQuery}
                     style={backgroundColor}
@@ -116,8 +115,9 @@ export default function SearchFcScreen({ navigation }) {
                     data={bikeData}
                     extraData={bikeData}
                     onEndReachedThreshold={0}
+                    ListEmptyComponent={<Text>データがありません。</Text>}
                     onEndReached={() => {
-                        searchFc(nextPage, bikeData);
+                        searchBike(nextPage, bikeData);
                     }}
                     renderItem={({ item }: any) => (
                         < BikeCard
@@ -130,7 +130,7 @@ export default function SearchFcScreen({ navigation }) {
                                 navigation.navigate('燃費詳細', {
                                     bikeName: item.bike.bike_name,
                                     bikeId: item.bike.bike_id,
-                                    isPublicView: false,
+                                    isPublicView: true,
                                     maxFc: item.fc.fc_max.max ? item.fc.fc_max.max : 0,
                                     minFc: item.fc.fc_min.min ? item.fc.fc_min.min : 0,
                                     avgFc: item.fc.fc_avg.avg ? item.fc.fc_avg.avg : 0,
@@ -153,7 +153,9 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         // justifyContent: 'center',
-        marginTop: 30,
+        // marginTop: 30,
+        marginTop: -2,
+        marginBottom: 100,
         // flexDirection: 'row',
         // alignItems: 'center',
     },

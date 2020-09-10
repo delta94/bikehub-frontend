@@ -38,6 +38,7 @@
       "authApiBaseUrl": "http://133.167.102.92:8888",
       "newsApiPath": "/rest/news/",
       "fcApiPath": "/rest/bike/fc/",
+      "fcReadOnlyApiPath": "/rest/bike/fc/ro/",
       "fcSummaryApiPath": "/rest/bike/fc/detail/",
       "bikeApiPath": "/rest/bike/",
       "loginPath": "/rest/auth/login/",

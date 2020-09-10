@@ -23,8 +23,7 @@ export default function FcDetailScreen({ route, navigation }: any) {
     const textColor = colorScheme === 'light' ? '#000000' : '#fff';
     const API_KEY = Constants.manifest.extra.apiKey;
     const BASE_URL = Constants.manifest.extra.authApiBaseUrl;
-    // const FC_PATH = Constants.manifest.extra.fcApiPath;
-    const FC_PATH = Constants.manifest.extra.fcApiPath;
+    const FC_PATH = Constants.manifest.extra.fcReadOnlyApiPath;
     const FC_SUMMARY_PATH = Constants.manifest.extra.fcSummaryApiPath;
     const [nextPage, setNextPage] = useState(1);
     const [isNoNext, setIsNoNext] = useState(false);
@@ -35,31 +34,6 @@ export default function FcDetailScreen({ route, navigation }: any) {
     const [fcDataForChart, setFcDataForChart] = useState([0]);
     const { bikeName, maxFc, minFc, avgFc, maker, userId, bikeId, isPublicView } = route.params;
 
-    console.log("bikeId")
-    console.log(bikeId)
-    console.log("userId")
-    const getUserId = async () => {
-        try {
-            const value = await AsyncStorage.getItem('USER_ID');
-            console.log(value)
-            return value;
-        } catch (error) {
-            return null;
-        }
-    }
-
-    const data = {
-        x: [1, 2, 3, 4, 5],
-        y: [1, 2, 3, 4, 8],
-        type: 'scatter',
-    };
-    const layout = {
-        width: "100%",
-        height: "100%",
-        paper_bgcolor: "#000000",
-        plot_bgcolor: "#000000",
-        showlegend: false
-    };
     useEffect(() => {
         fetchFc()
     }, [])
@@ -123,8 +97,6 @@ export default function FcDetailScreen({ route, navigation }: any) {
             `?bike=${bikeId}&user=${userId ? userId : ""}&page=${nextPage}` :
             `?bike=${bikeId}&page=${nextPage}`
 
-        console.log("query")
-        console.log(query)
         if (isNoNext) return
         await axios({
             url: BASE_URL + FC_PATH + query,
@@ -162,19 +134,33 @@ export default function FcDetailScreen({ route, navigation }: any) {
         console.log("delete")
         console.log(fc_id)
     }
+    const copyFc = (fc_id: string) => {
+        console.log("copy")
+        console.log(fc_id)
+    }
 
-    const editButton = (fc_id: string) => {
+    const buttons = (fc_id: string) => {
+        console.log("fc_id")
+        console.log(fc_id)
         const data =
             ([
                 <List.Item
+                    key={`${fc_id}_add`}
+                    left={props => <List.Icon  {...props} icon="note-plus-outline" color="seagreen" />}
+                    right={props => <List.Icon  {...props} icon="chevron-right" color="green" />}
+                    title="このバイクで燃費を再登録" onPress={() => { copyFc(`${fc_id}`) }}
+                />,
+                <List.Item
                     key={`${fc_id}_edit`}
-                    left={props => <List.Icon  {...props} icon="playlist-edit" />}
-                    title="編集" onPress={() => { deleteFc(fc_id) }}
+                    left={props => <List.Icon  {...props} icon="playlist-edit" color="green" />}
+                    right={props => <List.Icon  {...props} icon="chevron-right" color="green" />}
+                    title="編集" onPress={() => { editFc(`${fc_id}`) }}
                 />,
                 <List.Item
                     key={`${fc_id}_delete`}
-                    left={props => <List.Icon  {...props} icon="delete" />}
-                    title="削除" onPress={() => { editFc(fc_id) }}
+                    left={props => <List.Icon  {...props} icon="delete" color="tomato" />}
+                    right={props => <List.Icon  {...props} icon="chevron-right" color="green" />}
+                    title="削除" onPress={() => { deleteFc(`${fc_id}`) }}
                 />
             ])
 
@@ -191,11 +177,9 @@ export default function FcDetailScreen({ route, navigation }: any) {
             >
                 <FlatList
                     ListHeaderComponent={
-
                         <View>
                             {createChart(fcDataForChart)}
                         </View>
-
                     }
                     ListEmptyComponent={<Text>データがありません。</Text>}
                     data={fcData}
@@ -206,8 +190,8 @@ export default function FcDetailScreen({ route, navigation }: any) {
                     }}
                     renderItem={({ item }: any) => (
                         <List.Accordion
-                            descriptionStyle={{ color: "#000000" }}
-                            style={{ borderColor: "#000000", maxWidth: 500 }}
+                            // descriptionStyle={{ color: "#000000" }}
+                            // style={{ borderColor: "#000000", maxWidth: 500 }}
                             title={`${item.fc} Km/L`}
                             description={`${item.user.disp_name} さん`}
                             left={props => <List.Icon  {...props} icon="gauge" />}>
@@ -215,7 +199,7 @@ export default function FcDetailScreen({ route, navigation }: any) {
                             <List.Item title={`燃料: ${item.fuel_type.fuel}`} />
                             <List.Item title={`高速:${item.high_way_ride}% | 街乗り:${item.city_ride}%`} />
                             <List.Item title={`走行距離:${item.distance ? item.distance : 0}Km / 給油量:${item.gas_amount ? item.gas_amount : 0}L`} />
-                            {editButton(item.bike_id)}
+                            {buttons(item.fc_id)}
                         </List.Accordion>
                     )}
                     keyExtractor={(item: any, index: Number) => index.toString()}
@@ -229,9 +213,9 @@ export default function FcDetailScreen({ route, navigation }: any) {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
+        flex: 1,
         // justifyContent: 'center',
-        // // marginTop: 30,
+        marginBottom: 30,
         // flexDirection: 'row',
         // alignItems: 'center',
     },

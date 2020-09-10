@@ -1,7 +1,9 @@
 import React from 'react';
 import LoginScreen from '../../screens/auth/LoginScreen';
-import SearchFcScreen from '../../screens/fc/SearchFcScreen';
-import FcDetailScreen from '../../screens/fc/FcDetailScreen';
+import SearchFcScreen from '../../screens/fc/SearchBikeScreen';
+import DetailFcScreen from '../../screens/fc/DetailFcScreen';
+import RegistrationFcScreen from '../../screens/fc/RegistrationFcScreen';
+import InputFcScreen from '../../screens/fc/InputFcScreen';
 import HomeFcScreen from '../../screens/fc/HomeFcScreen';
 import PasswordResetScreen from '../../screens/auth/PasswordResetScreen';
 import RegistrationScreen from '../../screens/auth/RegistrationScreen';
@@ -12,7 +14,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useColorScheme } from 'react-native-appearance';
 
 export default function StackNavigator({ initialRouteName }: { initialRouteName: string }) {
-  initialRouteName = initialRouteName ? initialRouteName : "HOME-燃費-"
+  initialRouteName = initialRouteName ? initialRouteName : "HOME"
   const FcStack = createStackNavigator();
   const colorScheme = useColorScheme();
   const textColor = colorScheme === 'light' ? '#000000' : '#fff';
@@ -25,7 +27,7 @@ export default function StackNavigator({ initialRouteName }: { initialRouteName:
       initialRouteName={initialRouteName}
     >
       <FcStack.Screen
-        name="HOME-燃費-"
+        name="HOME"
         component={HomeFcScreen}
         options={{
           headerShown: false,
@@ -54,7 +56,28 @@ export default function StackNavigator({ initialRouteName }: { initialRouteName:
             vertical: 135,
           },
         })}
-        component={FcDetailScreen}
+        component={DetailFcScreen}
+      />
+      <FcStack.Screen
+        name="燃費登録"
+        options={({ route }) => ({
+          gestureResponseDistance: {
+            horizontal: 1000,
+            vertical: 135,
+          },
+        })}
+        component={RegistrationFcScreen}
+      />
+      <FcStack.Screen
+        name="燃費入力"
+        options={({ route }) => ({
+          title: route.params.bikeName,
+          gestureResponseDistance: {
+            horizontal: 1000,
+            vertical: 135,
+          },
+        })}
+        component={InputFcScreen}
       />
       <FcStack.Screen
         name="ログイン"
