@@ -25,41 +25,27 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchQueryPrev, setSearchQueryPrev] = useState('');
   const [bikeData, setBikeData]: any = useState([]);
-  const getUserId = async () => {
-    try {
-      const value = await AsyncStorage.getItem('USER_ID');
-      setUserId(value)
-      return value
-    } catch (error) {
-      return ''
-    }
-  }
+
 
   useFocusEffect(
     useCallback(() => {
-      getUserId().then((v) => {
-        searchBike(v)
-      })
+      const getUserId = async () => {
+        try {
+          const value = await AsyncStorage.getItem('USER_ID');
+          // setUserId(value)
+          setIsNoNext(false)
+          searchBike(value)
+        } catch (error) {
+          setUserId('')
+        }
+      }
+      getUserId()
     }, [])
   );
 
-  // useEffect(() => {
-  //   searchBike(userId)
-  // }, [userId])
 
-  // useEffect(() => {
-  //   searchBike(userId)
-  // }, [])
-
-
-
-  const searchBike = async (user_id: string) => {
-    if (!user_id) {
-      setBikeData([])
-      return
-    }
-
-    const query = `?fc__user__id=${user_id}&page=${nextPage}`;
+  const searchBike = async (user_id: any) => {
+    const query = `?ordering=-fc__created_at&fc__user__id=${user_id}&page=${nextPage}`;
     console.log(query)
     if (isNoNext) return
     await axios({
@@ -74,20 +60,21 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
         if (response.data.next) {
           setNextPage(nextPage + 1);
         } else {
+          setNextPage(1)
           setIsNoNext(true);
         }
 
         if (Number(response.status) == 200) {
-          let bikes: any = []
-          response.data.results.map((bike: any) => {
-            getFcSummary(bike.bike_id).then((tmp_fc) => {
-              bikes.push({ bike: bike, fc: tmp_fc })
-              setBikeData(bikes)
+          const CreateBikes = async () => await Promise.all(response.data.results.map(async (bike: any) => {
+            return await getFcSummary(bike.bike_id).then((tmp_fc) => {
+              return { bike: bike, fc: tmp_fc }
             })
-          })
+          }))
+          CreateBikes().then((bikes) => { setBikeData(bikes) })
         }
       })
       .catch((e) => {
+        setNextPage(1)
         if (e.response) {
           console.log(e.response.status);
           console.log(e.response.data);

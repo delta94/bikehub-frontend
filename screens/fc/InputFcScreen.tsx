@@ -95,15 +95,14 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
     const BASE_URL = Constants.manifest.extra.authApiBaseUrl;
     const FC_REGISTRATION_PATH = Constants.manifest.extra.fcApiPath;
     const API_KEY = Constants.manifest.extra.apiKey;
-    const refInput1 = useRef()
-    const refInput2 = useRef()
-    const refInput3 = useRef()
-    const refInput4 = useRef()
-    const refInput5 = useRef()
-    const refInput6 = useRef()
-    const refInput7 = useRef()
-    const refInput8 = useRef()
-
+    const refInput1 = useRef<HTMLDivElement>(null);
+    const refInput2 = useRef<HTMLDivElement>(null);
+    const refInput3 = useRef<HTMLDivElement>(null);
+    const refInput4 = useRef<HTMLDivElement>(null);
+    const refInput5 = useRef<HTMLDivElement>(null);
+    const refInput6 = useRef<HTMLDivElement>(null);
+    const refInput7 = useRef<HTMLDivElement>(null);
+    const refInput8 = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const fc = Number(fcData.fc)
@@ -135,14 +134,8 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
             setFc('fc', String(d))
         }
 
-        console.log('city_ride')
-        console.log(city_ride)
-        console.log('high_way_ride')
-        console.log(high_way_ride)
         setFcPrevData(fcData)
-
         if (city_ride !== prev_city_ride && high_way_ride === prev_high_way_ride) {
-            console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
             const total = city_ride + high_way_ride
             if (!city_ride) {
                 setCityRide('0')
@@ -153,8 +146,6 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
             }
         }
         if (city_ride === prev_city_ride && high_way_ride !== prev_high_way_ride) {
-            console.log("ls@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-
             const total = city_ride + high_way_ride
             if (!high_way_ride) {
                 setHighWayRide('0')
@@ -164,12 +155,6 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
                 setCityRide(String(diff))
             }
         }
-
-        console.log(' ')
-        console.log(' ')
-        console.log(' ')
-
-
 
     }, [fcData])
 
@@ -297,7 +282,9 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
                                     setFc('city_ride', text)
                                 }}
                                 value={cityRide}
-                                onSubmitEditing={() => refInput1.current.focus()}
+                                onSubmitEditing={() => {
+                                    if (refInput1.current) refInput1.current.focus()
+                                }}
                                 defaultValue={fcData.city_ride}
                                 autoCompleteType="off"
                                 textContentType="none"
@@ -321,7 +308,9 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
                                     setHighWayRide(text)
                                     setFc('high_way_ride', text)
                                 }}
-                                onSubmitEditing={() => refInput2.current.focus()}
+                                onSubmitEditing={() => {
+                                    if (refInput2.current) refInput2.current.focus()
+                                }}
                                 value={highWayRide}
                                 defaultValue={fcData.high_way_ride}
                                 ref={refInput1}
@@ -356,7 +345,9 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
                                 }}
                                 autoCompleteType="off"
                                 textContentType="none"
-                                onSubmitEditing={() => refInput3.current.focus()}
+                                onSubmitEditing={() => {
+                                    if (refInput3.current) refInput3.current.focus()
+                                }}
                                 ref={refInput2}
                                 placeholder="2000"
                                 returnKeyType="next"
@@ -381,7 +372,10 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
                                 onChangeText={(text) => { setFc('distance_af', text) }}
                                 autoCompleteType="off"
                                 textContentType="none"
-                                onSubmitEditing={() => refInput4.current.focus()}
+                                onSubmitEditing={() => {
+                                    if (refInput4.current) refInput4.current.focus()
+                                }
+                                }
                                 ref={refInput3}
                                 placeholder="2200"
                                 returnKeyType="next"
@@ -407,7 +401,10 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
                                 value={fcData.distance}
                                 autoCompleteType="off"
                                 textContentType="none"
-                                onSubmitEditing={() => refInput5.current.focus()}
+                                onSubmitEditing={() => {
+                                    if (refInput5.current) refInput5.current.focus()
+                                }
+                                }
                                 ref={refInput4}
                                 placeholder="20"
                                 returnKeyType="next"
@@ -432,7 +429,11 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
                                 onChangeText={(text) => { setFc('gas_amount', text) }}
                                 autoCompleteType="off"
                                 textContentType="none"
-                                onSubmitEditing={() => refInput6.current.focus()}
+                                onSubmitEditing={() => {
+
+                                    if (refInput6.current) refInput6.current.focus()
+
+                                }}
                                 ref={refInput5}
                                 placeholder="12.15"
                                 returnKeyType="next"
@@ -457,7 +458,9 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
                                 onChangeText={(text) => { setFc('fc', text) }}
                                 autoCompleteType="username"
                                 textContentType="username"
-                                onSubmitEditing={() => refInput7.current.focus()}
+                                onSubmitEditing={() => {
+                                    if (refInput7.current) refInput7.current.focus()
+                                }
                                 value={fcData.fc}
                                 ref={refInput6}
                                 placeholder="20.31"
@@ -489,7 +492,9 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
                                 onChangeText={(text) => { setFc('model_year', text) }}
                                 autoCompleteType="username"
                                 textContentType="username"
-                                onSubmitEditing={() => refInput8.current.focus()}
+                                onSubmitEditing={() => {
+                                    if (refInput8.current) refInput8.current.focus()
+                                }}
                                 ref={refInput7}
                                 placeholder="2012"
                                 returnKeyType="next"
