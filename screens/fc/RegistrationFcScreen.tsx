@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Searchbar } from 'react-native-paper';
-import { useFocusEffect } from '@react-navigation/native';
 
-import { StyleSheet, SafeAreaView, Text, ScrollView, View, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, ScrollView, View, FlatList, Alert } from 'react-native';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import { useColorScheme } from 'react-native-appearance';
 import BikeCard from '../../components/fc/BikeCard'
 
-export default function SearchFcScreen({ navigation }: { navigation: any }) {
+export default function SearchFcScreen({ navigation, route }: { navigation: any, route: any }) {
     const colorScheme = useColorScheme();
     const backgroundColor = colorScheme === 'light' ? styles.searchBoxLight : styles.searchBoxDark;
     const textColor = colorScheme === 'light' ? '#000000' : '#fff';
@@ -20,13 +19,28 @@ export default function SearchFcScreen({ navigation }: { navigation: any }) {
     const [isNoNext, setIsNoNext] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [bikeData, setBikeData]: any = useState([]);
+    const { userId } = route.params;
+    const fcData = [{
+        "fc": ``,
+        "distance_bf": ``,
+        "distance_af": ``,
+        "distance": ``,
+        "gas_amount": ``,
+        "city_ride": `50`,
+        "high_way_ride": `50`,
+        "fc_comment": ``,
+        "model_year": ``,
+        "fuel_type": `0`,
+        "user": userId,
+    }]
     const onChangeSearch = (query: any) => setSearchQuery(query);
     useEffect(() => {
-        console.log("effect")
         setNextPage(1)
         setBikeData([])
         searchFc(1, [])
     }, [])
+
+
     const searchFc = async (page: number, bikes: any) => {
         const query = searchQuery ? `?search=${searchQuery}&page=${page}` : `?page=${page}`
         if (isNoNext) return
@@ -64,6 +78,7 @@ export default function SearchFcScreen({ navigation }: { navigation: any }) {
             });
 
     }
+
     const getFcSummary = async (bikeId: string) => {
         const data = await axios({
             url: BASE_URL + FC_SUMMARY_PATH,
@@ -99,7 +114,6 @@ export default function SearchFcScreen({ navigation }: { navigation: any }) {
                     inputStyle={{ color: textColor, fontSize: 22 }}
                     onChangeText={onChangeSearch}
                     onEndEditing={() => {
-                        console.log("change edit")
                         setNextPage(1)
                         setBikeData([])
                         searchFc(1, [])
@@ -127,9 +141,12 @@ export default function SearchFcScreen({ navigation }: { navigation: any }) {
                             maker={item.bike.maker}
                             onPress={() =>
                                 navigation.navigate('燃費入力', {
+                                    fcId: '',
                                     bikeName: item.bike.bike_name,
                                     bikeId: item.bike.bike_id,
+                                    userId: userId,
                                     isEdit: false,
+                                    receivedFcData: fcData
                                 })
                             }
                         />

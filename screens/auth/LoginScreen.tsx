@@ -57,7 +57,6 @@ export default function Login({ navigation }: { navigation: any }) {
   };
 
   const setAccessToken = async (accessToken: string) => {
-    console.log(accessToken)
     try {
       await AsyncStorage.setItem(
         'ACCESS_TOKEN',
@@ -69,7 +68,6 @@ export default function Login({ navigation }: { navigation: any }) {
   }
 
   const setUserId = async (userId: string) => {
-    console.log(userId)
     try {
       await AsyncStorage.setItem(
         'USER_ID',
@@ -94,7 +92,6 @@ export default function Login({ navigation }: { navigation: any }) {
     })
       .then((response: any) => {
         if (Number(response.status) == 200) {
-          console.log(response.data)
           setAccessToken(
             response.data.access_token,
           )

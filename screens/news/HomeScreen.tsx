@@ -28,7 +28,7 @@ export default function HomeScreen({ route, navigation }: any) {
   const [nextPage, setnextPage] = useState(1);
   const [isNoNext, setIsNoNext] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
-  
+
   const themeItemContainer =
     colorScheme === 'light' ? styles.containerLight : styles.containerDark;
   useFocusEffect(
@@ -49,10 +49,7 @@ export default function HomeScreen({ route, navigation }: any) {
   }, []);
 
   const MainTagCounter = async () => {
-    console.log(category)
     let c = category ? category : MainTagsHomeID
-    console.log(BASE_URL + MAIN_TAG_PATH + c)
-
     await axios(BASE_URL + MAIN_TAG_PATH + c + '/', {
       method: 'PATCH',
       headers: {

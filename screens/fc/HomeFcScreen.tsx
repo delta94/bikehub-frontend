@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useColorScheme } from 'react-native-appearance';
 import { StyleSheet, SafeAreaView, ScrollView, View, FlatList, AsyncStorage } from 'react-native';
 import { Button, Text } from 'react-native-paper';
-import { Searchbar } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 
 import axios from 'axios';
@@ -12,18 +8,13 @@ import Constants from 'expo-constants';
 import BikeCard from '../../components/fc/BikeCard'
 
 export default function HomeFcScreen({ navigation }: { navigation: any }) {
-  const colorScheme = useColorScheme();
-  const backgroundColor = colorScheme === 'light' ? styles.searchBoxLight : styles.searchBoxDark;
-  const textColor = colorScheme === 'light' ? '#000000' : '#fff';
   const API_KEY = Constants.manifest.extra.apiKey;
   const BASE_URL = Constants.manifest.extra.authApiBaseUrl;
   const BIKE_PATH = Constants.manifest.extra.bikeApiPath;
   const FC_SUMMARY_PATH = Constants.manifest.extra.fcSummaryApiPath;
   const [nextPage, setNextPage] = useState(1);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId]: any = useState("");
   const [isNoNext, setIsNoNext] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchQueryPrev, setSearchQueryPrev] = useState('');
   const [bikeData, setBikeData]: any = useState([]);
 
 
@@ -35,6 +26,7 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
           // setUserId(value)
           setIsNoNext(false)
           searchBike(value)
+          setUserId(value)
         } catch (error) {
           setUserId('')
         }
@@ -45,9 +37,9 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
 
 
   const searchBike = async (user_id: any) => {
-    const query = `?ordering=-fc__created_at&fc__user__id=${user_id}&page=${nextPage}`;
-    console.log(query)
+    const query = `?fc__user__id=${user_id}&page=${nextPage}`;
     if (isNoNext) return
+    console.log(BASE_URL + BIKE_PATH + query)
     await axios({
       url: BASE_URL + BIKE_PATH + query,
       method: 'GET',
@@ -57,6 +49,7 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
       },
     })
       .then((response: any) => {
+        console.log(response.data.results)
         if (response.data.next) {
           setNextPage(nextPage + 1);
         } else {
@@ -138,7 +131,9 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
                 icon="cloud-search-outline"
                 mode="outlined"
                 onPress={() => {
-                  navigation.navigate('燃費検索')
+                  navigation.navigate('燃費検索', {
+                    userId: userId,
+                  })
                 }}
 
               >燃費の検索</Button>
@@ -150,7 +145,9 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
                 icon="gas-station"
                 mode="outlined"
                 onPress={() => {
-                  navigation.navigate('燃費登録')
+                  navigation.navigate('燃費登録', {
+                    userId: userId,
+                  })
                 }}
 
               >燃費の登録</Button>
@@ -247,28 +244,7 @@ const styles = StyleSheet.create({
     color: '#000000'
   },
 });
-// const styles = StyleSheet.create({
-//   container: {
-//     flexGrow: 1,
-//     // justifyContent: 'center',
-//     // marginTop: 30,
-//     marginTop: -2,
-//     marginBottom: 100,
-//     // flexDirection: 'row',
-//     // alignItems: 'center',
-//   },
-//   searchBoxDark: {
-//     marginTop: 2,
-//     backgroundColor: '#000000',
-//     borderWidth: 0.5,
-//     borderColor: "#fff",
-//   },
-//   searchBoxLight: {
-//     marginTop: 2,
-//     backgroundColor: '#fff',
-//     color: '#000000'
-//   },
-// });
+
 
 // Home -> 
       // Seach/ -> show max min ave and user name

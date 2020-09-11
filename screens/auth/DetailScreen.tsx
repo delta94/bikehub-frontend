@@ -75,7 +75,6 @@ export default function Login({ navigation }: { navigation: any }) {
   const getAccessToken = async () => {
     try {
       const value = await AsyncStorage.getItem('ACCESS_TOKEN');
-      console.log(value)
       return value;
     } catch (error) {
       return null;
@@ -147,7 +146,6 @@ export default function Login({ navigation }: { navigation: any }) {
           logout()
         } else if (Number(response.status) == 200) {
           let fmtBirthday = "";
-          console.log(response.data)
           const userData = response.data
           if (userData.birthday) {
             const splitBirthday = userData.birthday.split('-')

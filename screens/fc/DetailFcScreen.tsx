@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Searchbar } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Alert } from 'react-native';
 import { StyleSheet, SafeAreaView, ScrollView, View, FlatList, Text, Dimensions } from 'react-native';
 import axios from 'axios';
 import Constants from 'expo-constants';
@@ -18,15 +18,28 @@ import {
     StackedBarChart
 } from "react-native-chart-kit";
 import { List } from 'react-native-paper';
+let token: any = null;
+const getToken = async () => {
+    try {
+        const value = await AsyncStorage.getItem('ACCESS_TOKEN');
+        return value;
+    } catch (error) {
+        return null;
+    }
+}
+
+
 export default function FcDetailScreen({ route, navigation }: any) {
     const colorScheme = useColorScheme();
     const textColor = colorScheme === 'light' ? '#000000' : '#fff';
     const API_KEY = Constants.manifest.extra.apiKey;
     const BASE_URL = Constants.manifest.extra.authApiBaseUrl;
-    const FC_PATH = Constants.manifest.extra.fcReadOnlyApiPath;
+    const FC_READ_ONLY_PATH = Constants.manifest.extra.fcReadOnlyApiPath;
+    const FC_PATH = Constants.manifest.extra.fcApiPath;
     const FC_SUMMARY_PATH = Constants.manifest.extra.fcSummaryApiPath;
     const [nextPage, setNextPage] = useState(1);
     const [isNoNext, setIsNoNext] = useState(false);
+    const [token, setToken]: any = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [plotlyLayout, setPlotlyLayout]: any = useState({ title: 'My cool chart!', plot_bgcolor: '#000000', paper_bgcolor: "#000000" });
     const [searchQueryPrev, setSearchQueryPrev] = useState('');
@@ -35,10 +48,30 @@ export default function FcDetailScreen({ route, navigation }: any) {
     const { bikeName, maxFc, minFc, avgFc, maker, userId, bikeId, isPublicView } = route.params;
 
     useEffect(() => {
-        fetchFc()
+        fetchFc(false, '')
+        getToken().then((t) => {
+            setToken(t)
+        })
     }, [])
+
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         const getUserId = async () => {
+    //             try {
+    //                 const value = await AsyncStorage.getItem('USER_ID');
+    //                 // setUserId(value)
+    //                 setIsNoNext(false)
+    //                 searchBike(value)
+    //                 setUserId(value)
+    //             } catch (error) {
+    //                 setUserId('')
+    //             }
+    //         }
+    //         getUserId()
+    //     }, [])
+    // );
     useEffect(() => {
-        let fcs = fcData.map((d) => {
+        let fcs = fcData.map((d: any) => {
             return d.fc
         })
         const len = fcDataForChart.length
@@ -50,15 +83,17 @@ export default function FcDetailScreen({ route, navigation }: any) {
 
     }, [fcData])
 
-    const createChart = (fc) => {
+    const createChart = (fc: any) => {
         return (
             <LineChart
                 data={{
-                    datasets: [
-                        {
-                            data: fc
-                        }
-                    ]
+                    labels: [],
+                    datasets: [{
+                        data: fc,
+                        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+                        // strokeWidth: 2 // optional
+                    }],
+                    // legend: ["Rainy Days", "Sunny Days", "Snowy Days"] 
                 }}
                 width={Dimensions.get("window").width} // from react-native
                 height={220}
@@ -92,27 +127,44 @@ export default function FcDetailScreen({ route, navigation }: any) {
         )
     }
 
-    const fetchFc = async () => {
-        const query = userId ?
-            `?bike=${bikeId}&user=${userId ? userId : ""}&page=${nextPage}` :
-            `?bike=${bikeId}&page=${nextPage}`
-
-        if (isNoNext) return
+    const fetchFc = async (isDelete: boolean, fc_id: string) => {
+        let method: any = 'GET';
+        const query = () => {
+            if (isDelete) {
+                method = 'DELETE'
+                return (
+                    `${fc_id}`
+                )
+            } else {
+                return isPublicView ? `?bike=${bikeId}&page=${nextPage}` : `?bike=${bikeId}&user=${userId ? userId : ""}&page=${nextPage}`
+            }
+        }
+        const headers = () => {
+            if (isDelete) {
+                return ({
+                    Authorization: `Bearer  ${token}`,
+                    'Content-Type': 'application/json',
+                })
+            } else {
+                return ({
+                    Authorization: API_KEY,
+                    'Content-Type': 'application/json',
+                })
+            }
+        }
+        if (isNoNext && !isDelete) return
+        const request_uri = isDelete ? FC_PATH : FC_READ_ONLY_PATH
+        console.log(BASE_URL + request_uri + query())
+        // console.log(BASE_URL + request_uri + query())
         await axios({
-            url: BASE_URL + FC_PATH + query,
-            method: 'GET',
-            headers: {
-                Authorization: API_KEY,
-                'Content-Type': 'application/json',
-            },
+            url: BASE_URL + request_uri + query(),
+            method: method,
+            headers: headers(),
         })
             .then((response: any) => {
-                console.log("response.data.results")
-                console.log(response.data.results)
-
                 setFcData([...fcData, ...response.data.results])
-
-                if (response.data.next) {
+                console.log([...fcData, ...response.data.results])
+                if (response.data.next && !isDelete) {
                     setNextPage(nextPage + 1);
                 } else {
                     setIsNoNext(true);
@@ -127,21 +179,42 @@ export default function FcDetailScreen({ route, navigation }: any) {
 
     }
     const editFc = (fc_id: string) => {
-        console.log("edit")
-        console.log(fc_id)
-    }
-    const deleteFc = (fc_id: string) => {
-        console.log("delete")
-        console.log(fc_id)
+        navigation.navigate('燃費入力', {
+            fcId: fc_id,
+            bikeName: bikeName,
+            bikeId: bikeId,
+            userId: userId,
+            isEdit: true,
+            receivedFcData: fcData.filter((i: any) => { return i.fc_id === fc_id })
+        })
     }
     const copyFc = (fc_id: string) => {
-        console.log("copy")
-        console.log(fc_id)
+        navigation.navigate('燃費入力', {
+            fcId: fc_id,
+            bikeName: bikeName,
+            bikeId: bikeId,
+            userId: userId,
+            isEdit: false,
+            receivedFcData: fcData.filter((i: any) => { return i.fc_id === fc_id })
+        })
     }
-
+    const deleteFc = (fc_id: string) => {
+        Alert.alert(
+            "確認",
+            "本当に燃費を削除しますか？",
+            [
+                { text: "戻る" },
+                {
+                    text: "削除する", onPress: () => {
+                        fetchFc(true, fc_id).then(() => {
+                            setFcData(fcData.filter((i: any) => { return i.fc_id !== fc_id }))
+                        })
+                    }
+                },
+            ],
+        );
+    }
     const buttons = (fc_id: string) => {
-        console.log("fc_id")
-        console.log(fc_id)
         const data =
             ([
                 <List.Item
@@ -172,7 +245,7 @@ export default function FcDetailScreen({ route, navigation }: any) {
     }
     return (
         <SafeAreaView style={styles.container} >
-            <List.Section title="燃費一覧"
+            <List.AccordionGroup
             // titleStyle={{ marginTop: 50 }}
             >
                 <FlatList
@@ -186,13 +259,14 @@ export default function FcDetailScreen({ route, navigation }: any) {
                     extraData={fcData}
                     onEndReachedThreshold={0}
                     onEndReached={() => {
-                        fetchFc()
+                        fetchFc(false, '')
                     }}
                     renderItem={({ item }: any) => (
                         <List.Accordion
                             // descriptionStyle={{ color: "#000000" }}
                             // style={{ borderColor: "#000000", maxWidth: 500 }}
-                            title={`${item.fc} Km/L`}
+                            id={`${item.fc_id}`}
+                            title={`${item.fc} Km/L | ${item.model_year}年モデル`}
                             description={`${item.user.disp_name} さん`}
                             left={props => <List.Icon  {...props} icon="gauge" />}>
                             <List.Item titleNumberOfLines={5} title={`コメント: ${item.fc_comment}`} />
@@ -204,7 +278,7 @@ export default function FcDetailScreen({ route, navigation }: any) {
                     )}
                     keyExtractor={(item: any, index: Number) => index.toString()}
                 />
-            </List.Section>
+            </List.AccordionGroup>
         </SafeAreaView >
     )
 }

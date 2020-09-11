@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Searchbar } from 'react-native-paper';
-import { useFocusEffect } from '@react-navigation/native';
 
 import { StyleSheet, SafeAreaView, ScrollView, Text, View, FlatList } from 'react-native';
 import axios from 'axios';
@@ -8,7 +7,7 @@ import Constants from 'expo-constants';
 import { useColorScheme } from 'react-native-appearance';
 import BikeCard from '../../components/fc/BikeCard'
 
-export default function searchBikeScreen({ navigation }: { navigation: any }) {
+export default function searchBikeScreen({ navigation, route }: { navigation: any, route: any }) {
     const colorScheme = useColorScheme();
     const backgroundColor = colorScheme === 'light' ? styles.searchBoxLight : styles.searchBoxDark;
     const textColor = colorScheme === 'light' ? '#000000' : '#fff';
@@ -21,9 +20,9 @@ export default function searchBikeScreen({ navigation }: { navigation: any }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchQueryPrev, setSearchQueryPrev] = useState('');
     const [bikeData, setBikeData]: any = useState([]);
+    const { userId } = route.params;
     const onChangeSearch = (query: any) => setSearchQuery(query);
     useEffect(() => {
-        console.log("effect")
         setNextPage(1)
         setBikeData([])
         searchBike(1, [])
@@ -100,7 +99,6 @@ export default function searchBikeScreen({ navigation }: { navigation: any }) {
                     inputStyle={{ color: textColor, fontSize: 22 }}
                     onChangeText={onChangeSearch}
                     onEndEditing={() => {
-                        console.log("change edit")
                         setNextPage(1)
                         setBikeData([])
                         searchBike(1, [])
@@ -130,6 +128,7 @@ export default function searchBikeScreen({ navigation }: { navigation: any }) {
                                 navigation.navigate('燃費詳細', {
                                     bikeName: item.bike.bike_name,
                                     bikeId: item.bike.bike_id,
+                                    userId: userId,
                                     isPublicView: true,
                                     maxFc: item.fc.fc_max.max ? item.fc.fc_max.max : 0,
                                     minFc: item.fc.fc_min.min ? item.fc.fc_min.min : 0,

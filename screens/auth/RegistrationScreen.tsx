@@ -378,7 +378,7 @@ export default function Login({ navigation }: { navigation: any }) {
                   setPassword2(text);
                 }}
                 importantForAutofill="yes"
-                onSubmitEditing={() => console.log("done")}
+                // onSubmitEditing={() => console.log("done")}
                 ref={refInput8}
                 autoCompleteType="password"
                 textContentType="newPassword"
