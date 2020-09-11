@@ -47,30 +47,21 @@ export default function FcDetailScreen({ route, navigation }: any) {
     const [fcDataForChart, setFcDataForChart] = useState([0]);
     const { bikeName, maxFc, minFc, avgFc, maker, userId, bikeId, isPublicView } = route.params;
 
+
+
     useEffect(() => {
         fetchFc(false, '')
         getToken().then((t) => {
             setToken(t)
+            if (!t) {
+                navigation.navigate('Profile')
+            }
         })
     }, [])
 
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         const getUserId = async () => {
-    //             try {
-    //                 const value = await AsyncStorage.getItem('USER_ID');
-    //                 // setUserId(value)
-    //                 setIsNoNext(false)
-    //                 searchBike(value)
-    //                 setUserId(value)
-    //             } catch (error) {
-    //                 setUserId('')
-    //             }
-    //         }
-    //         getUserId()
-    //     }, [])
-    // );
+
     useEffect(() => {
+
         let fcs = fcData.map((d: any) => {
             return d.fc
         })
@@ -90,7 +81,7 @@ export default function FcDetailScreen({ route, navigation }: any) {
                     labels: [],
                     datasets: [{
                         data: fc,
-                        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+                        // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
                         // strokeWidth: 2 // optional
                     }],
                     // legend: ["Rainy Days", "Sunny Days", "Snowy Days"] 

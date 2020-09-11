@@ -142,6 +142,7 @@ export default function Login({ navigation }: { navigation: any }) {
   return (
     <KeyboardAwareScrollView
       style={topContainerColor}
+      keyboardShouldPersistTaps="always"
     >
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}

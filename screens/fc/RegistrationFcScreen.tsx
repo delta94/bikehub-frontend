@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, } from 'react';
 import { Searchbar } from 'react-native-paper';
 
-import { StyleSheet, SafeAreaView, Text, ScrollView, View, FlatList, Alert } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, ScrollView, View, FlatList, Alert, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import { useColorScheme } from 'react-native-appearance';
@@ -34,13 +34,30 @@ export default function SearchFcScreen({ navigation, route }: { navigation: any,
         "user": userId,
     }]
     const onChangeSearch = (query: any) => setSearchQuery(query);
+
     useEffect(() => {
+        getToken().then((t) => {
+            console.log(t)
+            console.log(t)
+            console.log(t)
+            if (!t) {
+                navigation.navigate('HOME')
+            }
+        })
         setNextPage(1)
         setBikeData([])
         searchFc(1, [])
     }, [])
 
 
+    const getToken = async () => {
+        try {
+            const value = await AsyncStorage.getItem('ACCESS_TOKEN');
+            return value;
+        } catch (error) {
+            return null;
+        }
+    }
     const searchFc = async (page: number, bikes: any) => {
         const query = searchQuery ? `?search=${searchQuery}&page=${page}` : `?page=${page}`
         if (isNoNext) return
@@ -127,7 +144,7 @@ export default function SearchFcScreen({ navigation, route }: { navigation: any,
                 <FlatList
                     data={bikeData}
                     extraData={bikeData}
-                    onEndReachedThreshold={0}
+                    onEndReachedThreshold={0.3}
                     ListEmptyComponent={<Text>データがありません。</Text>}
                     onEndReached={() => {
                         searchFc(nextPage, bikeData);

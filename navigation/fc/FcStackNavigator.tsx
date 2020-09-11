@@ -79,58 +79,6 @@ export default function StackNavigator({ initialRouteName }: { initialRouteName:
         })}
         component={InputFcScreen}
       />
-      <FcStack.Screen
-        name="ログイン"
-        component={LoginScreen}
-        options={{
-          headerShown: false,
-          gestureResponseDistance: {
-            horizontal: 1000,
-            vertical: 135,
-          },
-        }}
-      />
-      <FcStack.Screen
-        name="パスワード再設定"
-        component={PasswordResetScreen}
-        options={{
-          gestureResponseDistance: {
-            horizontal: 1000,
-            vertical: 135,
-          },
-        }}
-      />
-      <FcStack.Screen
-        name="ユーザー詳細"
-        component={DetailScreen}
-        options={{
-          headerShown: false,
-          gestureResponseDistance: {
-            horizontal: 1000,
-            vertical: 135,
-          },
-        }}
-      />
-      <FcStack.Screen
-        name="ユーザー登録"
-        component={RegistrationScreen}
-        options={{
-          gestureResponseDistance: {
-            horizontal: 1000,
-            vertical: 135,
-          },
-        }}
-      />
-      <FcStack.Screen
-        name="利用規約"
-        component={TermsOfServiceScreen}
-        options={{
-          gestureResponseDistance: {
-            horizontal: 1000,
-            vertical: 135,
-          },
-        }}
-      />
     </FcStack.Navigator>
   );
 }

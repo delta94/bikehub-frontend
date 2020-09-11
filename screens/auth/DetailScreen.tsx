@@ -186,7 +186,7 @@ export default function Login({ navigation }: { navigation: any }) {
                 }}
                 onEndEditing={() => setIsEdit(true)}
                 style={{ fontSize: 20 }}
-                autoCompleteType="username"
+                autoCompleteType="off"
                 textContentType="none"
                 returnKeyType="done"
                 returnKeyLabel="done"
@@ -207,8 +207,8 @@ export default function Login({ navigation }: { navigation: any }) {
               </HelperText>
               <TextInput
                 underlineColor={textColor}
-                autoCompleteType="email"
-                textContentType="emailAddress"
+                autoCompleteType="off"
+                textContentType="none"
                 returnKeyType="done"
                 returnKeyLabel="ログイン"
                 maxLength={50}
@@ -228,8 +228,8 @@ export default function Login({ navigation }: { navigation: any }) {
               </HelperText>
               <TextInput
                 underlineColor={textColor}
-                autoCompleteType="password"
-                textContentType="password"
+                autoCompleteType="off"
+                textContentType="none"
                 returnKeyType="done"
                 returnKeyLabel="ログイン"
                 maxLength={50}

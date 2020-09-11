@@ -2,10 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, FlatList, AsyncStorage } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
-
+import { RefreshControl } from 'react-native'
 import axios from 'axios';
 import Constants from 'expo-constants';
 import BikeCard from '../../components/fc/BikeCard'
+import AccountLoginCheckNavigator from '../../navigation/fc/AccountLoginCheckNavigator'
 
 export default function HomeFcScreen({ navigation }: { navigation: any }) {
   const API_KEY = Constants.manifest.extra.apiKey;
@@ -16,32 +17,42 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
   const [userId, setUserId]: any = useState("");
   const [isNoNext, setIsNoNext] = useState(false);
   const [bikeData, setBikeData]: any = useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
 
 
+  const getUserId = async () => {
+    try {
+      const value = await AsyncStorage.getItem('USER_ID');
+      // setUserId(value)
+      setIsNoNext(false)
+      searchBike(value)
+      setUserId(value)
+    } catch (error) {
+      setUserId('')
+    }
+  }
   useFocusEffect(
     useCallback(() => {
-      const getUserId = async () => {
-        try {
-          const value = await AsyncStorage.getItem('USER_ID');
-          // setUserId(value)
-          setIsNoNext(false)
-          searchBike(value)
-          setUserId(value)
-        } catch (error) {
-          setUserId('')
-        }
-      }
       getUserId()
     }, [])
   );
+  const onRefresh = useCallback(() => {
+    getUserId()
+    setRefreshing(true);
+  }, []);
 
 
   const searchBike = async (user_id: any) => {
-    const query = `?fc__user__id=${user_id}&page=${nextPage}`;
+
+    if (!user_id) {
+      setBikeData([])
+      return
+    }
     if (isNoNext) return
-    console.log(BASE_URL + BIKE_PATH + query)
+    const query = `?fc__user__id=${user_id}&page=${nextPage}`;
+    console.log(BASE_URL + BIKE_PATH + query + `&for_cache_${Math.floor(Math.random() * 100)}=${Math.floor(Math.random() * 100)}`)
     await axios({
-      url: BASE_URL + BIKE_PATH + query,
+      url: BASE_URL + BIKE_PATH + query + `&for_cache_${Math.random()}=${Math.random()}`,
       method: 'GET',
       headers: {
         Authorization: API_KEY,
@@ -49,7 +60,6 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
       },
     })
       .then((response: any) => {
-        console.log(response.data.results)
         if (response.data.next) {
           setNextPage(nextPage + 1);
         } else {
@@ -72,6 +82,8 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
           console.log(e.response.status);
           console.log(e.response.data);
         }
+      }).finally(() => {
+        setRefreshing(false);
       });
 
   }
@@ -106,7 +118,9 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
     // <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
     <SafeAreaView style={styles.container}>
       <FlatList
-
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         ListHeaderComponent={() => {
           const historyLabel = userId ? <Text style={{
             marginTop: 50,
@@ -145,9 +159,15 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
                 icon="gas-station"
                 mode="outlined"
                 onPress={() => {
-                  navigation.navigate('燃費登録', {
-                    userId: userId,
-                  })
+                  console.log('userId')
+                  console.log(userId)
+                  if (userId) {
+                    navigation.navigate('燃費登録', {
+                      userId: userId,
+                    })
+                  } else {
+                    navigation.navigate('Profile')
+                  }
                 }}
 
               >燃費の登録</Button>

@@ -15,6 +15,7 @@ import { AsyncStorage } from 'react-native';
 import PasswordResetScreen from './PasswordResetScreen'
 import axios from 'axios';
 import Constants from 'expo-constants';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 export default function Login({ navigation }: { navigation: any }) {
@@ -135,107 +136,112 @@ export default function Login({ navigation }: { navigation: any }) {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-      style={topContainerColor}
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps="always"
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <View>
-            <View style={styles.textInputWrapper}>
-              <TextInput
-                autoFocus={true}
-                underlineColor={textColor}
-                label="Email"
-                onChangeText={(text) => {
-                  if (!text) {
-                    setIsEmailEmpty(true);
-                  } else {
-                    setIsEmailEmpty(false);
-                  }
-                  setEmail(text);
-                }}
-                autoCompleteType="username"
-                textContentType="username"
-                returnKeyType="next"
-                returnKeyLabel="次へ"
-                onSubmitEditing={() => refInput1.current.focus()}
-                maxLength={50}
-                disabled={loading}
-                theme={{
-                  colors: {
-                    text: textColor,
-                  },
-                }}
-              />
-              <HelperText type="error" visible={isEmailEmpty}>
-                メールアドレスを入力してください。
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+
+
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <View>
+              <View style={styles.textInputWrapper}>
+                <TextInput
+                  autoFocus={true}
+                  underlineColor={textColor}
+                  label="Email"
+                  onChangeText={(text) => {
+                    if (!text) {
+                      setIsEmailEmpty(true);
+                    } else {
+                      setIsEmailEmpty(false);
+                    }
+                    setEmail(text);
+                  }}
+                  autoCompleteType="username"
+                  textContentType="username"
+                  returnKeyType="next"
+                  returnKeyLabel="次へ"
+                  onSubmitEditing={() => refInput1.current.focus()}
+                  maxLength={50}
+                  disabled={loading}
+                  theme={{
+                    colors: {
+                      text: textColor,
+                    },
+                  }}
+                />
+                <HelperText type="error" visible={isEmailEmpty}>
+                  メールアドレスを入力してください。
               </HelperText>
-            </View>
-            <View style={styles.textInputWrapper}>
-              <TextInput
-                underlineColor={textColor}
-                label="Password"
-                onChangeText={(text) => {
-                  if (!text) {
-                    setIsPasswordEmpty(true);
-                  } else {
-                    setIsPasswordEmpty(false);
-                  }
-                  setPassword(text);
-                }}
-                autoCompleteType="password"
-                textContentType="password"
-                returnKeyType="done"
-                returnKeyLabel="ログイン"
-                ref={refInput1}
-                maxLength={50}
-                secureTextEntry={true}
-                disabled={loading}
-                theme={{
-                  colors: {
-                    text: textColor,
-                  },
-                }}
-              />
-              <HelperText type="error" visible={isPasswordEmpty}>
-                パスワードを入力してください。
+              </View>
+              <View style={styles.textInputWrapper}>
+                <TextInput
+                  underlineColor={textColor}
+                  label="Password"
+                  onChangeText={(text) => {
+                    if (!text) {
+                      setIsPasswordEmpty(true);
+                    } else {
+                      setIsPasswordEmpty(false);
+                    }
+                    setPassword(text);
+                  }}
+                  autoCompleteType="password"
+                  textContentType="password"
+                  returnKeyType="done"
+                  returnKeyLabel="ログイン"
+                  ref={refInput1}
+                  maxLength={50}
+                  secureTextEntry={true}
+                  disabled={loading}
+                  theme={{
+                    colors: {
+                      text: textColor,
+                    },
+                  }}
+                />
+                <HelperText type="error" visible={isPasswordEmpty}>
+                  パスワードを入力してください。
               </HelperText>
+              </View>
             </View>
-          </View>
-          <Button
-            loading={loading}
-            style={styles.button}
-            onPress={() => login()}
-          >
-            ログイン
+            <Button
+              loading={loading}
+              style={styles.button}
+              onPress={() => login()}
+            >
+              ログイン
           </Button>
-          <HelperText type="error" visible={isinValid}>
-            認証に失敗しました。メールアドレスとパスワードを確認してください。
+            <HelperText type="error" visible={isinValid}>
+              認証に失敗しました。メールアドレスとパスワードを確認してください。
           </HelperText>
-          <View style={styles.viewInline}>
-            <Button
-              compact={true}
-              style={styles.buttonInline}
-              onPress={() => {
-                navigation.navigate('ユーザー登録')
-              }}
-            >
-              新規登録
+            <View style={styles.viewInline}>
+              <Button
+                compact={true}
+                style={styles.buttonInline}
+                onPress={() => {
+                  navigation.navigate('ユーザー登録')
+                }}
+              >
+                新規登録
             </Button>
-            <Button
-              compact={true}
-              style={styles.buttonInline}
-              onPress={() => {
-                navigation.navigate('パスワード再設定')
-              }}
-            >
-              パスワードを忘れた
+              <Button
+                compact={true}
+                style={styles.buttonInline}
+                onPress={() => {
+                  navigation.navigate('パスワード再設定')
+                }}
+              >
+                パスワードを忘れた
             </Button>
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }
 

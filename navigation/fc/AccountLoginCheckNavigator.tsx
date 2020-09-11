@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { AsyncStorage } from 'react-native';
-import AccountStackNavigator from './AccountStackNavigator';
+import FcStackNavigator from './FcStackNavigator';
 
 let token: any = null;
 const getToken = async () => {
@@ -17,13 +17,11 @@ getToken().then((t) => {
   token = t
 })
 
-export default function HomeAccountScreen() {
+export default function HomeAccountScreen({ navigation }: { navigation: any }) {
   if (token) {
-    console.log("token okvv ")
-    return <AccountStackNavigator initialRouteName={'ユーザー詳細'} />
+    return <FcStackNavigator initialRouteName={'燃費登録'} />
   } else {
-    console.log("token n o")
-    return <AccountStackNavigator initialRouteName={'ログイン'} />
+    navigation.navigate('Profile')
   }
 
 }

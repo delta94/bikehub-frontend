@@ -34,8 +34,10 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
         try {
             const value = await AsyncStorage.getItem('ACCESS_TOKEN');
             setToken(value);
+            return value
         } catch (error) {
             setToken('');
+            return null
         }
     }
 
@@ -101,7 +103,11 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
     useFocusEffect(
         useCallback(() => {
             getUserId()
-            getAccessToken()
+            getAccessToken().then((v) => {
+                if (!v) {
+                    navigation.navigate('HOME')
+                }
+            })
         }, [])
     );
 
@@ -249,291 +255,291 @@ export default function InputFcScreen({ navigation, route }: { navigation: any, 
         <KeyboardAwareScrollView
             style={topContainerColor}
             extraScrollHeight={200}
+            enableAutomaticScroll={true}
+            keyboardShouldPersistTaps="always"
         >
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
+            <View style={styles.container}>
+                <View>
                     <View>
-                        <View>
-                            <View style={styles.viewInline}>
+                        <View style={styles.viewInline}>
+                            <View style={radioButtonTheme}>
+                                <Text style={{ color: textColor }}>ガソリン</Text>
+                            </View>
+                            <View style={radioButtonTheme}>
+                                <Text style={{ color: textColor }}>ハイオク</Text>
+                            </View>
+                        </View>
+                        <View style={styles.viewInline}>
+                            <RadioButton.Group onValueChange={v => setFc('fuel_type', v)} value={fcData.fuel_type}>
                                 <View style={radioButtonTheme}>
-                                    <Text style={{ color: textColor }}>ガソリン</Text>
+                                    <View style={styles.RadioButtonWrapper}>
+                                        <RadioButton
+                                            uncheckedColor="green"
+                                            color="green"
+                                            value="0" />
+                                    </View>
                                 </View>
                                 <View style={radioButtonTheme}>
-                                    <Text style={{ color: textColor }}>ハイオク</Text>
+                                    <View style={styles.RadioButtonWrapper}>
+                                        <RadioButton
+                                            uncheckedColor="green"
+                                            color="green"
+                                            value="1" />
+                                    </View>
                                 </View>
-                            </View>
-                            <View style={styles.viewInline}>
-                                <RadioButton.Group onValueChange={v => setFc('fuel_type', v)} value={fcData.fuel_type}>
-                                    <View style={radioButtonTheme}>
-                                        <View style={styles.RadioButtonWrapper}>
-                                            <RadioButton
-                                                uncheckedColor="green"
-                                                color="green"
-                                                value="0" />
-                                        </View>
-                                    </View>
-                                    <View style={radioButtonTheme}>
-                                        <View style={styles.RadioButtonWrapper}>
-                                            <RadioButton
-                                                uncheckedColor="green"
-                                                color="green"
-                                                value="1" />
-                                        </View>
-                                    </View>
-                                </RadioButton.Group>
-                            </View>
+                            </RadioButton.Group>
                         </View>
-
-                        <View style={styles.textInputBirthdayWrapper}>
-                            <View style={radioButtonTheme}>
-                                <Text style={{ color: textColor }}>{`街乗り${cityRide}%`}</Text>
-                            </View>
-                            <Slider
-                                style={{
-                                    width: "60%",
-                                    height: 40,
-                                    // margin: "auto",
-                                    // alignContent: "center",
-                                    // flexDirection: 'row',
-                                    // flex: 1,
-                                    // justifyContent: 'center',
-                                    // alignItems: 'center'
-
-                                }}
-                                onValueChange={(v) => setCityRide(v)}
-                                onSlidingComplete={(v) => {
-                                    setFc('city_ride', v)
-                                    setFc('high_way_ride', (100 - Number(v)))
-                                }}
-                                value={`${fcData.city_ride}`}
-                                step={1}
-                                minimumValue={0}
-                                maximumValue={100}
-                                minimumTrackTintColor='green'
-                                maximumTrackTintColor={textColor}
-                            />
-                            <View style={radioButtonTheme}>
-                                <Text style={{ color: textColor }}>{`高速${100 - Number(cityRide)}%`}</Text>
-                            </View>
-                        </View>
-                        <View style={styles.textInputWrapper}>
-                            <TextInput
-                                // autoFocus={true}
-                                defaultValue={fcData.distance_bf}
-                                underlineColor={textColor}
-                                label="給油前の距離(Km) -オプション-"
-                                keyboardType='numeric'
-                                onChangeText={(text) => {
-                                    // if (text.length === 3) {
-                                    //     refInput3.current.focus()
-                                    // }
-                                    setFc('distance_bf', text)
-                                }}
-                                autoCompleteType="off"
-                                textContentType="none"
-                                onSubmitEditing={() => {
-                                    if (refInput3.current) refInput3.current.focus()
-                                }}
-                                ref={refInput2}
-                                placeholder="2000"
-                                returnKeyType="next"
-                                returnKeyLabel="次へ"
-                                nameSuffix="Km"
-                                maxLength={7}
-                                disabled={loading}
-                                theme={{
-                                    colors: {
-                                        text: textColor,
-                                    },
-                                }}
-                            />
-                        </View>
-                        <View style={styles.textInputWrapper}>
-                            <TextInput
-                                // autoFocus={true}
-                                defaultValue={fcData.distance_af}
-                                underlineColor={textColor}
-                                label="給油後の距離(Km) -オプション-"
-                                keyboardType='numeric'
-                                onChangeText={(text) => { setFc('distance_af', text) }}
-                                autoCompleteType="off"
-                                textContentType="none"
-                                onSubmitEditing={() => {
-                                    if (refInput4.current) refInput4.current.focus()
-                                }
-                                }
-                                ref={refInput3}
-                                placeholder="2200"
-                                returnKeyType="next"
-                                returnKeyLabel="次へ"
-                                nameSuffix="Km"
-                                maxLength={7}
-                                disabled={loading}
-                                theme={{
-                                    colors: {
-                                        text: textColor,
-                                    },
-                                }}
-                            />
-                        </View>
-                        <View style={styles.textInputWrapper}>
-                            <TextInput
-                                // autoFocus={true}
-                                defaultValue={fcData.distance}
-                                underlineColor={textColor}
-                                label="走行距離(Km) -オプション-"
-                                keyboardType='numeric'
-                                onChangeText={(text) => { setFc('distance', text) }}
-                                value={fcData.distance}
-                                autoCompleteType="off"
-                                textContentType="none"
-                                onSubmitEditing={() => {
-                                    if (refInput5.current) refInput5.current.focus()
-                                }
-                                }
-                                ref={refInput4}
-                                placeholder="20"
-                                returnKeyType="next"
-                                returnKeyLabel="次へ"
-                                nameSuffix="Km"
-                                maxLength={4}
-                                disabled={loading}
-                                theme={{
-                                    colors: {
-                                        text: textColor,
-                                    },
-                                }}
-                            />
-                        </View>
-                        <View style={styles.textInputWrapper}>
-                            <TextInput
-                                // autoFocus={true}
-                                defaultValue={fcData.gas_amount}
-                                underlineColor={textColor}
-                                label="給油量(リットル) -オプション-"
-                                keyboardType='numeric'
-                                onChangeText={(text) => { setFc('gas_amount', text) }}
-                                autoCompleteType="off"
-                                textContentType="none"
-                                onSubmitEditing={() => {
-
-                                    if (refInput6.current) refInput6.current.focus()
-
-                                }}
-                                ref={refInput5}
-                                placeholder="12.15"
-                                returnKeyType="next"
-                                returnKeyLabel="次へ"
-                                nameSuffix="L"
-                                maxLength={5}
-                                disabled={loading}
-                                theme={{
-                                    colors: {
-                                        text: textColor,
-                                    },
-                                }}
-                            />
-                        </View>
-                        <View style={styles.textInputWrapper}>
-                            <TextInput
-                                // autoFocus={true}
-                                defaultValue={fcData.fc}
-                                underlineColor={textColor}
-                                label="燃費(Km/L)"
-                                keyboardType='numeric'
-                                onChangeText={(text) => { setFc('fc', text) }}
-                                autoCompleteType="username"
-                                textContentType="username"
-                                onSubmitEditing={() => {
-                                    if (refInput7.current) refInput7.current.focus()
-                                }}
-                                value={fcData.fc}
-                                ref={refInput6}
-                                placeholder="20.31"
-                                returnKeyType="next"
-                                returnKeyLabel="次へ"
-                                maxLength={4}
-                                disabled={loading}
-                                nameSuffix="Km/L"
-                                theme={{
-                                    colors: {
-                                        text: textColor,
-                                    },
-                                }}
-                            />
-                            <HelperText type="error" visible={isFcEmpty}>
-                                燃費を入力してください。
-                                </HelperText>
-                            <HelperText type="error" visible={isFcHigh}>
-                                燃費が良すぎて登録できません。
-                                </HelperText>
-                        </View>
-                        <View style={styles.textInputWrapper}>
-                            <TextInput
-                                defaultValue={fcData.model_year}
-                                // autoFocus={true}
-                                underlineColor={textColor}
-                                label="バイクの年式"
-                                keyboardType='number-pad'
-                                onChangeText={(text) => { setFc('model_year', text) }}
-                                autoCompleteType="username"
-                                textContentType="username"
-                                onSubmitEditing={() => {
-                                    if (refInput8.current) refInput8.current.focus()
-                                }}
-                                ref={refInput7}
-                                placeholder="2012"
-                                returnKeyType="next"
-                                returnKeyLabel="次へ"
-                                maxLength={4}
-                                disabled={loading}
-                                nameSuffix="年式"
-                                theme={{
-                                    colors: {
-                                        text: textColor,
-                                    },
-                                }}
-                            />
-                            <HelperText type="error" visible={isModelYearEmpty}>
-                                年式を入力してください。
-                                </HelperText>
-                        </View>
-
-                        <View style={styles.textInputCommentWrapper}>
-                            <TextInput
-                                defaultValue={fcData.fc_comment}
-                                underlineColor={textColor}
-                                label="コメント"
-                                onChangeText={(text) => { setFc('fc_comment', text) }}
-                                autoCompleteType="off"
-                                textContentType="none"
-                                blurOnSubmit={false}
-                                value={comment}
-                                onSubmitEditing={(text) => { setComment(`${comment} ${'\n'} `) }}
-                                onChange={(obj) => { setComment(obj.nativeEvent.text) }}
-                                ref={refInput8}
-                                placeholder="満タン法です。燃費メータと比較用です。"
-                                returnKeyType="none"
-                                returnKeyLabel="改行"
-                                maxLength={500}
-                                disabled={loading}
-                                multiline
-                                theme={{
-                                    colors: {
-                                        text: textColor,
-                                    },
-                                }}
-                            />
-                        </View>
-
-                        <Button
-                            loading={loading}
-                            style={styles.button}
-                            onPress={() => registration()}
-                        >登録</Button>
                     </View>
+
+                    <View style={styles.textInputBirthdayWrapper}>
+                        <View style={radioButtonTheme}>
+                            <Text style={{ color: textColor }}>{`街乗り${cityRide}%`}</Text>
+                        </View>
+                        <Slider
+                            style={{
+                                width: "60%",
+                                height: 40,
+                                // margin: "auto",
+                                // alignContent: "center",
+                                // flexDirection: 'row',
+                                // flex: 1,
+                                // justifyContent: 'center',
+                                // alignItems: 'center'
+
+                            }}
+                            onValueChange={(v) => setCityRide(v)}
+                            onSlidingComplete={(v) => {
+                                setFc('city_ride', v)
+                                setFc('high_way_ride', (100 - Number(v)))
+                            }}
+                            value={`${fcData.city_ride}`}
+                            step={1}
+                            minimumValue={0}
+                            maximumValue={100}
+                            minimumTrackTintColor='green'
+                            maximumTrackTintColor={textColor}
+                        />
+                        <View style={radioButtonTheme}>
+                            <Text style={{ color: textColor }}>{`高速${100 - Number(cityRide)}%`}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.textInputWrapper}>
+                        <TextInput
+                            // autoFocus={true}
+                            defaultValue={fcData.distance_bf}
+                            underlineColor={textColor}
+                            label="給油前の距離(Km) -オプション-"
+                            keyboardType='numeric'
+                            onChangeText={(text) => {
+                                // if (text.length === 3) {
+                                //     refInput3.current.focus()
+                                // }
+                                setFc('distance_bf', text)
+                            }}
+                            autoCompleteType="off"
+                            textContentType="none"
+                            onSubmitEditing={() => {
+                                if (refInput3.current) refInput3.current.focus()
+                            }}
+                            ref={refInput2}
+                            placeholder="2000"
+                            returnKeyType="next"
+                            returnKeyLabel="次へ"
+                            nameSuffix="Km"
+                            maxLength={7}
+                            disabled={loading}
+                            theme={{
+                                colors: {
+                                    text: textColor,
+                                },
+                            }}
+                        />
+                    </View>
+                    <View style={styles.textInputWrapper}>
+                        <TextInput
+                            // autoFocus={true}
+                            defaultValue={fcData.distance_af}
+                            underlineColor={textColor}
+                            label="給油後の距離(Km) -オプション-"
+                            keyboardType='numeric'
+                            onChangeText={(text) => { setFc('distance_af', text) }}
+                            autoCompleteType="off"
+                            textContentType="none"
+                            onSubmitEditing={() => {
+                                if (refInput4.current) refInput4.current.focus()
+                            }
+                            }
+                            ref={refInput3}
+                            placeholder="2200"
+                            returnKeyType="next"
+                            returnKeyLabel="次へ"
+                            nameSuffix="Km"
+                            maxLength={7}
+                            disabled={loading}
+                            theme={{
+                                colors: {
+                                    text: textColor,
+                                },
+                            }}
+                        />
+                    </View>
+                    <View style={styles.textInputWrapper}>
+                        <TextInput
+                            // autoFocus={true}
+                            defaultValue={fcData.distance}
+                            underlineColor={textColor}
+                            label="走行距離(Km) -オプション-"
+                            keyboardType='numeric'
+                            onChangeText={(text) => { setFc('distance', text) }}
+                            value={fcData.distance}
+                            autoCompleteType="off"
+                            textContentType="none"
+                            onSubmitEditing={() => {
+                                if (refInput5.current) refInput5.current.focus()
+                            }
+                            }
+                            ref={refInput4}
+                            placeholder="20"
+                            returnKeyType="next"
+                            returnKeyLabel="次へ"
+                            nameSuffix="Km"
+                            maxLength={4}
+                            disabled={loading}
+                            theme={{
+                                colors: {
+                                    text: textColor,
+                                },
+                            }}
+                        />
+                    </View>
+                    <View style={styles.textInputWrapper}>
+                        <TextInput
+                            // autoFocus={true}
+                            defaultValue={fcData.gas_amount}
+                            underlineColor={textColor}
+                            label="給油量(リットル) -オプション-"
+                            keyboardType='numeric'
+                            onChangeText={(text) => { setFc('gas_amount', text) }}
+                            autoCompleteType="off"
+                            textContentType="none"
+                            onSubmitEditing={() => {
+
+                                if (refInput6.current) refInput6.current.focus()
+
+                            }}
+                            ref={refInput5}
+                            placeholder="12.15"
+                            returnKeyType="next"
+                            returnKeyLabel="次へ"
+                            nameSuffix="L"
+                            maxLength={5}
+                            disabled={loading}
+                            theme={{
+                                colors: {
+                                    text: textColor,
+                                },
+                            }}
+                        />
+                    </View>
+                    <View style={styles.textInputWrapper}>
+                        <TextInput
+                            // autoFocus={true}
+                            defaultValue={fcData.fc}
+                            underlineColor={textColor}
+                            label="燃費(Km/L)"
+                            keyboardType='numeric'
+                            onChangeText={(text) => { setFc('fc', text) }}
+                            autoCompleteType="username"
+                            textContentType="username"
+                            onSubmitEditing={() => {
+                                if (refInput7.current) refInput7.current.focus()
+                            }}
+                            value={fcData.fc}
+                            ref={refInput6}
+                            placeholder="20.31"
+                            returnKeyType="next"
+                            returnKeyLabel="次へ"
+                            maxLength={4}
+                            disabled={loading}
+                            nameSuffix="Km/L"
+                            theme={{
+                                colors: {
+                                    text: textColor,
+                                },
+                            }}
+                        />
+                        <HelperText type="error" visible={isFcEmpty}>
+                            燃費を入力してください。
+                                </HelperText>
+                        <HelperText type="error" visible={isFcHigh}>
+                            燃費が良すぎて登録できません。
+                                </HelperText>
+                    </View>
+                    <View style={styles.textInputWrapper}>
+                        <TextInput
+                            defaultValue={fcData.model_year}
+                            // autoFocus={true}
+                            underlineColor={textColor}
+                            label="バイクの年式"
+                            keyboardType='number-pad'
+                            onChangeText={(text) => { setFc('model_year', text) }}
+                            autoCompleteType="username"
+                            textContentType="username"
+                            onSubmitEditing={() => {
+                                if (refInput8.current) refInput8.current.focus()
+                            }}
+                            ref={refInput7}
+                            placeholder="2012"
+                            returnKeyType="next"
+                            returnKeyLabel="次へ"
+                            maxLength={4}
+                            disabled={loading}
+                            nameSuffix="年式"
+                            theme={{
+                                colors: {
+                                    text: textColor,
+                                },
+                            }}
+                        />
+                        <HelperText type="error" visible={isModelYearEmpty}>
+                            年式を入力してください。
+                                </HelperText>
+                    </View>
+
+                    <View style={styles.textInputCommentWrapper}>
+                        <TextInput
+                            defaultValue={fcData.fc_comment}
+                            underlineColor={textColor}
+                            label="コメント"
+                            onChangeText={(text) => { setFc('fc_comment', text) }}
+                            autoCompleteType="off"
+                            textContentType="none"
+                            blurOnSubmit={false}
+                            value={comment}
+                            onSubmitEditing={(text) => { setComment(`${comment} ${'\n'} `) }}
+                            onChange={(obj) => { setComment(obj.nativeEvent.text) }}
+                            ref={refInput8}
+                            placeholder="満タン法です。燃費メータと比較用です。"
+                            returnKeyType="none"
+                            returnKeyLabel="改行"
+                            maxLength={500}
+                            disabled={loading}
+                            multiline
+                            theme={{
+                                colors: {
+                                    text: textColor,
+                                },
+                            }}
+                        />
+                    </View>
+
+                    <Button
+                        loading={loading}
+                        style={styles.button}
+                        onPress={() => registration()}
+                    >登録</Button>
                 </View>
-            </TouchableWithoutFeedback>
+            </View>
         </KeyboardAwareScrollView >
     );
 }
@@ -559,6 +565,7 @@ const styles = StyleSheet.create({
         borderColor: '#c0c0c0',
         borderWidth: 1,
         paddingHorizontal: 0,
+        marginBottom: 200
     },
     buttonInline: {
         padding: 0,
