@@ -44,7 +44,7 @@ export default function FcDetailScreen({ route, navigation }: any) {
     fetchFc(false, '');
     getToken().then((t) => {
       setToken(t);
-      if (!t) {
+      if (!t && !isPublicView) {
         navigation.navigate('Profile');
       }
     });
@@ -282,9 +282,8 @@ export default function FcDetailScreen({ route, navigation }: any) {
                 title={`高速:${item.high_way_ride}% | 街乗り:${item.city_ride}%`}
               />
               <List.Item
-                title={`走行距離:${
-                  item.distance ? item.distance : 0
-                }Km / 給油量:${item.gas_amount ? item.gas_amount : 0}L`}
+                title={`走行距離:${item.distance ? item.distance : 0
+                  }Km / 給油量:${item.gas_amount ? item.gas_amount : 0}L`}
               />
               {buttons(item.fc_id)}
             </List.Accordion>
