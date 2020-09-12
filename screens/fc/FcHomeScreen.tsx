@@ -55,15 +55,18 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
       setLoading(false);
       return;
     }
-    if (isNoNext) return;
+    if (isNoNext) {
+      setLoading(false);
+      return
+    };
     const query = `?fc__user__id=${user_id}&page=${nextPage}`;
     console.log(
       BASE_URL +
-        BIKE_PATH +
-        query +
-        `&for_cache_${Math.floor(Math.random() * 100)}=${Math.floor(
-          Math.random() * 100
-        )}`
+      BIKE_PATH +
+      query +
+      `&for_cache_${Math.floor(Math.random() * 100)}=${Math.floor(
+        Math.random() * 100
+      )}`
     );
     await axios({
       url:
@@ -157,17 +160,17 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
               燃費の履歴
             </Text>
           ) : (
-            <Text
-              style={{
-                marginTop: 50,
-                marginBottom: 20,
-                fontSize: 15,
-                marginLeft: 10,
-              }}
-            >
-              アカウント登録するとここに燃費の履歴が出てきます。
-            </Text>
-          );
+              <Text
+                style={{
+                  marginTop: 50,
+                  marginBottom: 20,
+                  fontSize: 15,
+                  marginLeft: 10,
+                }}
+              >
+                アカウント登録するとここに燃費の履歴が出てきます。
+              </Text>
+            );
 
           return (
             <View style={styles.buttonWrapper}>
