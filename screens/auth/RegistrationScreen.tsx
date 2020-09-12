@@ -121,9 +121,6 @@ export default function Login({ navigation }: { navigation: any }) {
       "password2": password2
     }
 
-    console.log(data)
-    console.log(BASE_URL + REGISTRATION_PATH)
-
     await axios({
       url: BASE_URL + REGISTRATION_PATH,
       method: 'POST',
