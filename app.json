@@ -27,7 +27,7 @@
     "android": {
       "useNextNotificationsApi": true,
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-8220669417943263~5516142910"
+        "googleMobileAdsAppId": "ca-app-pub-8220669417943263~9822025915"
       }
     },
     "web": {
