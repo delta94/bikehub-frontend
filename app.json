@@ -19,13 +19,13 @@
       "supportsTablet": true,
       "bundleIdentifier": "app.bikehub",
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-3940256099942544/3986624511"
+        "googleMobileAdsAppId": "ca-app-pub-8220669417943263~9822025915"
       }
     },
     "android": {
       "useNextNotificationsApi": true,
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-3940256099942544/3986624511"
+        "googleMobileAdsAppId": "ca-app-pub-8220669417943263~5516142910"
       }
     },
     "web": {
