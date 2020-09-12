@@ -19,10 +19,8 @@ getToken().then((t) => {
 
 export default function HomeAccountScreen() {
   if (token) {
-    console.log("token okvv ")
     return <AccountStackNavigator initialRouteName={'ユーザー詳細'} />
   } else {
-    console.log("token n o")
     return <AccountStackNavigator initialRouteName={'ログイン'} />
   }
 

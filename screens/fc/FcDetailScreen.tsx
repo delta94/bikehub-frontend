@@ -138,7 +138,6 @@ export default function FcDetailScreen({ route, navigation }: any) {
       return;
     }
     const request_uri = isDelete ? FC_PATH : FC_READ_ONLY_PATH;
-    console.log(BASE_URL + request_uri + query());
     // console.log(BASE_URL + request_uri + query())
     await axios({
       url: BASE_URL + request_uri + query(),
@@ -147,7 +146,6 @@ export default function FcDetailScreen({ route, navigation }: any) {
     })
       .then((response: any) => {
         setFcData([...fcData, ...response.data.results]);
-        console.log([...fcData, ...response.data.results]);
         if (response.data.next && !isDelete) {
           setNextPage(nextPage + 1);
         } else {

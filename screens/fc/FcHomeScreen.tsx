@@ -60,14 +60,7 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
       return
     };
     const query = `?fc__user__id=${user_id}&page=${nextPage}`;
-    console.log(
-      BASE_URL +
-      BIKE_PATH +
-      query +
-      `&for_cache_${Math.floor(Math.random() * 100)}=${Math.floor(
-        Math.random() * 100
-      )}`
-    );
+
     await axios({
       url:
         BASE_URL +
@@ -198,8 +191,6 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
                 icon="gas-station"
                 mode="outlined"
                 onPress={() => {
-                  console.log('userId');
-                  console.log(userId);
                   if (userId) {
                     navigation.navigate('燃費登録', {
                       userId: userId,
