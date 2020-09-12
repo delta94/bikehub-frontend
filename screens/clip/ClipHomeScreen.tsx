@@ -79,12 +79,12 @@ export default function ClipHomeScreen({ route, navigation }: any) {
             <NewsCard
               title={item.title}
               author={item.author}
-              imgUrl={item.featured_image}
+              imgUrl={item.imgUrl}
               onPress={() => {
                 navigation.navigate('記事', {
                   title: item.title,
                   author: item.author,
-                  imgUrl: item.featured_image,
+                  imgUrl: item.imgUrl,
                   summary: item.summary,
                   url: item.url,
                 });
@@ -99,7 +99,9 @@ export default function ClipHomeScreen({ route, navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+
+  },
   newsCardList: {
     justifyContent: 'center',
     flexDirection: 'row',
