@@ -1,10 +1,7 @@
-import React from 'react'
-import {
-  StyleSheet,
-  FlatList
-} from 'react-native';
+import React from 'react';
+import { StyleSheet, FlatList } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import BikeCard from './BikeCard'
+import BikeCard from './BikeCard';
 
 type NewsCardProps = {
   bikeData: any;
@@ -23,7 +20,7 @@ export default function FcList({ bikeData, isPublicView, searchFc }) {
         searchFc(nextPage, bikeData);
       }}
       renderItem={({ item }: any) => (
-        < BikeCard
+        <BikeCard
           bikeName={item.bike.bike_name}
           maxFc={item.fc.fc_max.max ? item.fc.fc_max.max : 0}
           minFc={item.fc.fc_min.min ? item.fc.fc_min.min : 0}
@@ -37,16 +34,15 @@ export default function FcList({ bikeData, isPublicView, searchFc }) {
               maxFc: item.fc.fc_max.max ? item.fc.fc_max.max : 0,
               minFc: item.fc.fc_min.min ? item.fc.fc_min.min : 0,
               avgFc: item.fc.fc_avg.avg ? item.fc.fc_avg.avg : 0,
-              maker: item.bike.maker
+              maker: item.bike.maker,
             })
           }
         />
       )}
       keyExtractor={(item: any, index: Number) => index.toString()}
     />
-  )
+  );
 }
-
 
 const styles = StyleSheet.create({
   itemContainer: {
@@ -71,7 +67,7 @@ const styles = StyleSheet.create({
   rightContainer: {
     margin: 10,
     width: '40%',
-    maxWidth: 300,
+    // maxWidth: 300,
   },
   imageContainer: {
     flex: 1,

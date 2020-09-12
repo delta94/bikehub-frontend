@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   rightContainer: {
     margin: 10,
     width: '40%',
-    maxWidth: 300,
+    // maxWidth: 300,
   },
   imageContainer: {
     flex: 1,
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   text: {
-    fontSize: RFPercentage(2.75),
+    fontSize: RFPercentage(2.25),
   },
   title: {
     fontSize: RFPercentage(1.5),

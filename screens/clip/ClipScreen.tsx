@@ -13,7 +13,7 @@ import { useColorScheme } from 'react-native-appearance';
 import { AdMobBanner } from 'expo-ads-admob';
 // await setTestDeviceIDAsync('EMULATOR');
 
-export default function ArticleScreen({ route, navigation }: any) {
+export default function ClipScreen({ route, navigation }: any) {
   const { title, author, imgUrl, summary, url } = route.params;
   const [isError, setisError] = useState(false);
   const colorScheme = useColorScheme();

@@ -8,8 +8,12 @@ import HomeAccountScreen from './AccountLoginCheckNavigator';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useColorScheme } from 'react-native-appearance';
 
-export default function StackNavigator({ initialRouteName }: { initialRouteName: string }) {
-  initialRouteName = initialRouteName ? initialRouteName : "ログイン"
+export default function AccountStackNavigator({
+  initialRouteName,
+}: {
+  initialRouteName: string;
+}) {
+  initialRouteName = initialRouteName ? initialRouteName : 'ログイン';
   const AccountStack = createStackNavigator();
   const colorScheme = useColorScheme();
   const textColor = colorScheme === 'light' ? '#000000' : '#fff';
@@ -24,7 +28,6 @@ export default function StackNavigator({ initialRouteName }: { initialRouteName:
       <AccountStack.Screen
         name="ログイン"
         component={LoginScreen}
-
         options={{
           gestureEnabled: false,
           headerShown: false,

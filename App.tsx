@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import AppNavigator from './navigation/AppNavigator';
 import { AppearanceProvider } from 'react-native-appearance';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-// import { Provider as StoreProvider } from 'react-redux';
 import { useColorScheme } from 'react-native-appearance';
+import { Provider } from 'react-redux';
+import store from './store';
 
 declare global {
   namespace ReactNativePaper {
@@ -36,10 +37,12 @@ export default function App() {
     dark: true,
   };
   return (
-    <AppearanceProvider>
-      <PaperProvider theme={CustomTheme}>
-        <AppNavigator />
-      </PaperProvider>
-    </AppearanceProvider>
+    <Provider store={store}>
+      <AppearanceProvider>
+        <PaperProvider theme={CustomTheme}>
+          <AppNavigator />
+        </PaperProvider>
+      </AppearanceProvider>
+    </Provider>
   );
 }

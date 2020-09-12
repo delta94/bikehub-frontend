@@ -226,7 +226,7 @@ export default function HomeFcScreen({ navigation }: { navigation: any }) {
 
 const styles = StyleSheet.create({
   container: {
-    maxWidth: 500,
+    // maxWidth: 500,
     flex: 1,
     // flexDirection: 'row',
     // alignItems: 'center',

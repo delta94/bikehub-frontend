@@ -1,11 +1,12 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import StackNavigator from './news/NewsStackNavigator';
+import NewsStackNavigator from './news/NewsStackNavigator';
 import { useColorScheme } from 'react-native-appearance';
 import { StyleSheet } from 'react-native';
-import AccountLoginCheckNavigator from './account/AccountLoginCheckNavigator'
-import FcStackNavigator from './fc/FcStackNavigator'
+import AccountLoginCheckNavigator from './account/AccountLoginCheckNavigator';
+import FcStackNavigator from './fc/FcStackNavigator';
+import ClipStackNavigator from './clip/ClipStackNavigator';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -26,7 +27,7 @@ export default function BottomNavigator() {
     >
       <Tab.Screen
         name="Feed"
-        component={StackNavigator}
+        component={NewsStackNavigator}
         options={{
           tabBarLabel: 'ニュース',
           tabBarIcon: ({ color }) => (
@@ -49,12 +50,16 @@ export default function BottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="SavedArticle"
-        component={AccountLoginCheckNavigator}
+        name="clip"
+        component={ClipStackNavigator}
         options={{
           tabBarLabel: '保存記事',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="bookmark" color={color} size={26} />
+            <MaterialCommunityIcons
+              name="bookmark-multiple-outline"
+              color={color}
+              size={26}
+            />
           ),
         }}
       />

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import { useColorScheme } from 'react-native-appearance';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import HomeScreen from '../../screens/news/HomeScreen';
+import HomeScreen from '../../screens/news/ArticleHomeScreen';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
@@ -14,7 +14,7 @@ const TOKEN_PATH = Constants.manifest.extra.tokenPath;
 const MAIN_TAG_PATH = Constants.manifest.extra.MainTagsPath;
 const API_KEY = Constants.manifest.extra.apiKey;
 
-export default function TabNavigator({ route, navigation }: any) {
+export default function NewsTabNavigator({ route, navigation }: any) {
   const colorScheme = useColorScheme();
   const themeItemContainer =
     colorScheme === 'light' ? styles.containerLight : styles.containerDark;
