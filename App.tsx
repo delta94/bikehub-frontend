@@ -4,8 +4,8 @@ import { AppearanceProvider } from 'react-native-appearance';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { useColorScheme } from 'react-native-appearance';
 import { Provider } from 'react-redux';
-import store from './store';
-
+import store, { persistor } from './store';
+import { PersistGate } from 'redux-persist/integration/react';
 declare global {
   namespace ReactNativePaper {
     interface ThemeColors {
@@ -38,11 +38,13 @@ export default function App() {
   };
   return (
     <Provider store={store}>
-      <AppearanceProvider>
-        <PaperProvider theme={CustomTheme}>
-          <AppNavigator />
-        </PaperProvider>
-      </AppearanceProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <AppearanceProvider>
+          <PaperProvider theme={CustomTheme}>
+            <AppNavigator />
+          </PaperProvider>
+        </AppearanceProvider>
+      </PersistGate>
     </Provider>
   );
 }
