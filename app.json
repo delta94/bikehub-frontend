@@ -13,12 +13,11 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "app.bikehub",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-3940256099942544/3986624511"
       }
