@@ -13,6 +13,7 @@ import Constants from 'expo-constants';
 import axios from 'axios';
 import { useColorScheme } from 'react-native-appearance';
 import { useFocusEffect } from '@react-navigation/native';
+import Loading from '../../components/common/Loading';
 
 const BASE_URL = Constants.manifest.extra.newsApiBaseUrl;
 const PATH = Constants.manifest.extra.newsApiPath;
@@ -26,6 +27,7 @@ export default function HomeScreen({ route, navigation }: any) {
   const colorScheme = useColorScheme();
   const [newsData, setNewsData]: any = useState([]);
   const [nextPage, setnextPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [isNoNext, setIsNoNext] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -49,21 +51,21 @@ export default function HomeScreen({ route, navigation }: any) {
   }, []);
 
   const MainTagCounter = async () => {
-    let c = category ? category : MainTagsHomeID
+    let c = category ? category : MainTagsHomeID;
     await axios(BASE_URL + MAIN_TAG_PATH + c + '/', {
       method: 'PATCH',
       headers: {
         Authorization: API_KEY,
       },
     })
-      .then((response: any) => {
-      })
+      .then((response: any) => {})
       .catch((e) => {
-        console.log(e.response)
+        console.log(e.response);
       });
-  }
+  };
 
   const fetchArticles = async () => {
+    setLoading(true);
     if (isNoNext && !refreshing) {
       return;
     }
@@ -103,6 +105,7 @@ export default function HomeScreen({ route, navigation }: any) {
       .catch((e) => {
         console.log(e);
       });
+    setLoading(false);
   };
 
   return (
@@ -125,21 +128,21 @@ export default function HomeScreen({ route, navigation }: any) {
               author={item.site.name}
               imgUrl={item.featured_image}
               onPress={() => {
-                MainTagCounter()
+                MainTagCounter();
                 navigation.navigate('記事', {
                   title: item.title,
                   author: item.site.name,
                   imgUrl: item.featured_image,
                   summary: item.summary,
                   url: item.url,
-                })
-              }
-              }
+                });
+              }}
             />
           )}
           keyExtractor={(item: any, index: Number) => index.toString()}
         />
       </View>
+      {loading && <Loading />}
     </SafeAreaView>
   );
 }

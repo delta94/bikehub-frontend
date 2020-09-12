@@ -36,20 +36,6 @@ export default function BottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="Fc"
-        component={FcStackNavigator}
-        options={{
-          tabBarLabel: '燃費登録',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="gas-station"
-              color={color}
-              size={26}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="clip"
         component={ClipStackNavigator}
         options={{
@@ -63,6 +49,21 @@ export default function BottomNavigator() {
           ),
         }}
       />
+      <Tab.Screen
+        name="Fc"
+        component={FcStackNavigator}
+        options={{
+          tabBarLabel: '燃費登録',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="gas-station"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
+
       <Tab.Screen
         name="Profile"
         component={AccountLoginCheckNavigator}

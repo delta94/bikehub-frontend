@@ -13,6 +13,7 @@ import axios from 'axios';
 import Constants from 'expo-constants';
 import { useColorScheme } from 'react-native-appearance';
 import BikeCard from '../../components/fc/BikeCard';
+import Loading from '../../components/common/Loading';
 
 export default function searchBikeScreen({
   navigation,
@@ -32,9 +33,9 @@ export default function searchBikeScreen({
   const [nextPage, setNextPage] = useState(1);
   const [isNoNext, setIsNoNext] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchQueryPrev, setSearchQueryPrev] = useState('');
   const [bikeData, setBikeData]: any = useState([]);
   const { userId } = route.params;
+  const [loading, setLoading] = useState(false);
   const onChangeSearch = (query: any) => setSearchQuery(query);
   useEffect(() => {
     setNextPage(1);
@@ -42,10 +43,14 @@ export default function searchBikeScreen({
     searchBike(1, []);
   }, []);
   const searchBike = async (page: number, bikes: any) => {
+    setLoading(true);
     const query = searchQuery
       ? `?search=${searchQuery}&page=${page}`
       : `?page=${page}`;
-    if (isNoNext) return;
+    if (isNoNext) {
+      setLoading(false);
+      return;
+    }
     await axios({
       url: BASE_URL + BIKE_PATH + query,
       method: 'GET',
@@ -78,6 +83,7 @@ export default function searchBikeScreen({
           console.log(e.response.data);
         }
       });
+    setLoading(false);
   };
   const getFcSummary = async (bikeId: string) => {
     const data = await axios({
@@ -157,6 +163,7 @@ export default function searchBikeScreen({
           keyExtractor={(item: any, index: Number) => index.toString()}
         />
       </View>
+      {loading && <Loading />}
     </SafeAreaView>
     // {/* </ScrollView> */}
   );

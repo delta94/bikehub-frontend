@@ -36,6 +36,14 @@ export default function App() {
     },
     dark: true,
   };
+  const [hideSplash, setHideSplash] = React.useState(false);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setHideSplash(true);
+    }, 1000);
+  }, []);
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

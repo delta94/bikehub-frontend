@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useColorScheme } from 'react-native-appearance';
+import Loading from '../../components/common/Loading';
 
 export default function ArticleViewScreen({ route, navigation }: any) {
   const { url } = route.params;
@@ -11,7 +12,11 @@ export default function ArticleViewScreen({ route, navigation }: any) {
     colorScheme === 'light' ? styles.containerLight : styles.containerDark;
   return (
     <SafeAreaView style={[styles.container, themeItemContainer]}>
-      <WebView source={{ uri: url }} />
+      <WebView
+        source={{ uri: url }}
+        startInLoadingState={true}
+        renderLoading={() => <Loading />}
+      />
     </SafeAreaView>
   );
 }
