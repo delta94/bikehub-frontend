@@ -76,15 +76,17 @@ export default function ArticleScreen({ route, navigation }: any) {
           <Text style={[styles.textSmall, themeText]}>
             ※続きは最下部の-オリジナルサイトで見る-から閲覧できます
           </Text>
-          <Text style={[styles.adText, themeText]} numberOfLines={4}>
-            広告
-          </Text>
-          <AdMobBanner
-            style={[styles.ad]}
-            bannerSize="mediumRectangle"
-            // adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
-            adUnitID="ca-app-pub-8220669417943263~9822025915"
-          />
+          <View style={{ borderTopColor: "#fff", borderBottomColor: "#fff", borderWidth: 1, width: "100%", padding: 10, alignItems: 'center', marginTop: 50, marginBottom: 50 }}>
+            <Text style={[styles.adText, themeText]} numberOfLines={4}>
+              広告
+            </Text>
+            <AdMobBanner
+              style={[styles.ad]}
+              bannerSize="mediumRectangle"
+              adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
+              // adUnitID="ca-app-pub-8220669417943263/2733010985"
+            />
+          </View>
 
           <TouchableOpacity
             onPress={() =>
@@ -107,8 +109,9 @@ export default function ArticleScreen({ route, navigation }: any) {
 const styles = StyleSheet.create({
   adText: {
     fontSize: 20,
-    marginTop: 30,
+    marginTop: 10,
     marginBottom: 10,
+    flexDirection: 'column',
   },
   ad: {
     marginBottom: 30,

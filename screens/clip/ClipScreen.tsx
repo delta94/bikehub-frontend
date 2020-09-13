@@ -78,13 +78,13 @@ export default function ClipScreen({ route, navigation }: any) {
           </Text>
           <Text style={[styles.adText, themeText]} numberOfLines={4}>
             広告
-          </Text>
           <AdMobBanner
-            style={[styles.ad]}
-            bannerSize="mediumRectangle"
-            // adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
-            adUnitID="ca-app-pub-8220669417943263/2733010985"
-          />
+              style={[styles.ad]}
+              bannerSize="mediumRectangle"
+              adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
+              // adUnitID="ca-app-pub-8220669417943263/2733010985"
+            />
+          </Text>
 
           <TouchableOpacity
             onPress={() =>
